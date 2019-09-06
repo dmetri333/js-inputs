@@ -1,0 +1,139 @@
+.align-input {
+  background: 0 0;
+  display: block;
+  height: 50px;
+  position: relative;
+  vertical-align: middle;
+  width: 50px;
+}
+
+.align-input .align-input-hline,
+.align-input .align-input-vline {
+  background: #dfe0e6;
+}
+
+.align-input .align-input-hline {
+  height: 2px;
+  width: 7px;
+  position: absolute;
+}
+
+.align-input .align-input-vline {
+  height: 7px;
+  width: 2px;
+  position: absolute;
+}
+
+.align-input .align-input-hline.top-left {
+  left: 12px;
+  top: 5px;
+}
+
+.align-input .align-input-hline.top-right {
+  left: 31px;
+  top: 5px;
+}
+
+.align-input .align-input-hline.bottom-left {
+  left: 12px;
+  bottom: 5px;
+}
+
+.align-input .align-input-hline.bottom-right {
+  left: 31px;
+  bottom: 5px;
+}
+
+.align-input .align-input-vline.top-left {
+  left: 5px;
+  top: 12px;
+}
+
+.align-input .align-input-vline.top-right {
+  right: 5px;
+  top: 12px;
+}
+
+.align-input .align-input-vline.bottom-left {
+  left: 5px;
+  top: 31px;
+}
+
+.align-input .align-input-vline.bottom-right {
+  right: 5px;
+  top: 31px;
+}
+
+.align-input .align-input-control {
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.align-input .align-input-control > input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  margin: 0;
+}
+
+.align-input .align-input-control .a-indicator {
+  border: 2px solid #dfe0e6;
+  border-radius: 1px;
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  display: block;
+}
+
+.align-input .align-input-control input:checked ~ .a-indicator {
+  background: #d0d0d0;
+  border: 2px solid #999;
+}
+
+.align-input .align-input-control.top-left {
+  left: 0;
+  top: 0;
+}
+
+.align-input .align-input-control.top-center {
+  left: 19px;
+  top: 0;
+}
+
+.align-input .align-input-control.top-right {
+  right: 0;
+  top: 0;
+}
+
+.align-input .align-input-control.center-left {
+  left: 0;
+  top: 19px;
+}
+
+.align-input .align-input-control.center-center {
+  left: 19px;
+  top: 19px;
+}
+
+.align-input .align-input-control.center-right {
+  right: 0;
+  top: 19px;
+}
+
+.align-input .align-input-control.bottom-left {
+  left: 0;
+  bottom: 0;
+}
+
+.align-input .align-input-control.bottom-center {
+  left: 19px;
+  bottom: 0;
+}
+
+.align-input .align-input-control.bottom-right {
+  right: 0;
+  bottom: 0;
+}

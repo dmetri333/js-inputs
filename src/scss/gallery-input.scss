@@ -1,0 +1,24 @@
+.gallery-input .gallery-input-preview {
+  font-size: 14px;
+  border: 1px solid #e5e5e5;
+}
+
+.gallery-input .gallery-input-preview .gallery-input-thumbs {
+  min-height: 100px;
+  padding: 10px;
+}
+
+.gallery-input .gallery-input-preview .gallery-input-thumbs .thumb {
+  display: inline-block;
+  position: relative;
+  margin: 0 5px 5px 0;
+}
+
+.gallery-input .gallery-input-preview .gallery-input-thumbs .thumb img {
+  width: 150px;
+}
+
+.gallery-input .gallery-input-preview .gallery-input-add {
+  border-top: 1px solid #e5e5e5;
+  padding: 10px;
+}

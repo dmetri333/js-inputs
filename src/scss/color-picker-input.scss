@@ -1,0 +1,14 @@
+.color-picker-input .color-picker {
+  margin: 4px;
+  width: 220px;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.color-picker-input .colorpicker.is-opened {
+  z-index: 1050;
+}
+
+.color-picker-input .inline {
+  display: inline-block;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="UTF-8">
+    	<title>Form Inputs</title>
+    	
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    	<link rel="stylesheet" href="/test/multi-spectral-picker/light.css">
+    	<link rel="stylesheet" href="/dist/css/inputs.css">
+    	
+    </head>
+    <body>
+   
+	   	<div class="main" style="margin-bottom: 400px;" >
+			
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						
+						<h1>File Input</h1>
+						<div class="form-group">
+							<div class="file-input" data-input="file" data-name="file-input-1" data-value='{"id":"6515d706a768c1fc","name":"wild-west-image-gun-woman-62910-51600.jpg","type":"jpg","path":"data/assets/wild-west-image-gun-woman-62910-51600.jpg","basename":"wild-west-image-gun-woman-62910-51600","size":"19.33 KB"}'></div>
+						</div>
+						<br>
+						
+						<h1>File Input 2</h1>
+						<div class="form-group">
+							<div class="file-input" data-input="file" data-name="file-input-2"></div>
+						</div>
+						<br>
+						
+						<h1>Image Input</h1>
+						<div class="form-group">
+							<div class="image-input" data-input="image" data-name="image-input-1"></div>
+						</div>
+						<br>
+						
+						<h1>Gallery Input</h1>
+						<div class="form-group">
+							<div class="gallery-input" data-input="gallery" data-name="gallery-input-1" data-value='[{"id":"4505d706a4214de8","name":"Screen Shot 2019-01-06 at 10.00.11 PM.png","basename":"Screen Shot 2019-01-06 at 10.00.11 PM","size":"551.11 KB","path":"data/assets/Screen Shot 2019-01-06 at 10.00.11 PM.png","type":"png"},{"id":"4465d706a2b51165","name":"Screen Shot 2019-08-28 at 2.54.13 PM.png","basename":"Screen Shot 2019-08-28 at 2.54.13 PM","size":"24.26 KB","path":"data/assets/Screen Shot 2019-08-28 at 2.54.13 PM.png","type":"png"}]'></div>
+						</div>
+						<br>
+
+						<h1>Color Picker Input</h1>
+						<div class="form-group">
+							<div class="color-picker-input" data-input="color-picker" data-name="color-picker-input-1"></div>
+						</div>
+						<br>
+						
+						<h1>Align Input</h1>
+						<div class="form-group">
+							<div class="align-input" data-input="align" data-name="align-input-1"></div>
+						</div>
+						<br>
+						<!-- 
+						<h1>Repeater Input</h1>
+						<div class="form-group">
+							<label for="fields">Fields</label>
+    	                 	<div class="repeater-input" id="repeater-input-1">
+    	                 		
+    	                 		<div class="template">
+            						<button type="button" class="close" aria-label="Close" data-repeater-remove="">
+                              			<span aria-hidden="true">&times;</span>
+                                	</button>
+            						<div class="form-group">  
+            							<label for="field-label">Field Label</label>                                  
+                            			<input type="text" class="form-control" name="field-label[]" placeholder="What can we help with?">
+                               		</div>
+            						<div class="form-group">
+            							<label for="field-type">Field Type</label>
+            							<select class="form-control field-type" name="field-type[]">
+            								<option>text</option>
+            								<option>textarea</option>
+            								<option>select</option>
+            								<option>checkbox</option>
+            								<option>radio</option>
+            							</select>
+            						</div>								
+                                	<div class="form-group fieldOptions" style="display: none;">
+                                		<label for="field-options">Field Options</label>
+                                  		<textarea class="form-control" name="field-options[]"></textarea>
+                                     </div>
+                                 	<div class="form-group">  
+                                 		<label for="field-default">Default Value</label>                                  
+                                  		<input type="text" class="form-control" name="field-default[]">
+                                    </div>
+                         		</div>
+                         		
+    	                 		<div class="items"></div>
+    	                        
+    	                 		<div class="add-fields">
+    		                 		<button type="button" class="btn btn-sm btn-outline-secondary" data-repeater-add="">+ Add Field</button>	
+    						  	</div>
+    							
+						  	</div>
+	                 	</div>
+	                 	 -->	
+						<br>
+						
+					</div>
+				</div>
+			
+			</div>
+			
+        </div>
+        
+        <!-- Latest compiled and minified JavaScript -->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+		<script src="/test/mock/MediaLibrary.js"></script>
+		<script src="/test/multi-spectral-picker/multi-spectral-picker.js"></script>
+		<script src="/dist/js/inputs.js"></script>
+		
+    	<script>
+
+    		$(document).ready(function() {
+
+    			var mediaLibrary = new MediaLibrary();
+    			
+    			new Inputs.InputInitializer($('.main'), mediaLibrary);
+
+          	});          	   		
+    	</script>
+        
+    </body>
+</html>

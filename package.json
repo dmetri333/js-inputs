@@ -1,0 +1,32 @@
+{
+  "name": "js-inputs",
+  "version": "1.0.0",
+  "description": "dynamic inputs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "webpack",
+    "watch-js": "webpack --watch",
+    "lint-sass": "stylelint 'src/scss/*.scss'",
+    "compile-sass": "node-sass --include-path scss src/scss/inputs.scss dist/css/inputs.css",
+    "compress-css": "node-sass dist/css/inputs.css dist/css/inputs.min.css --output-style compressed",
+    "build-css": "npm-run-all lint-sass compile-sass compress-css",
+  	"watch-sass": "node-sass --include-path scss src/scss/inputs.scss dist/css/inputs.css --watch"
+  },
+  "author": "Demetri Mihalakakos",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "@dmetri333/page-builder-util": "^2.1.3"
+  }
+}
