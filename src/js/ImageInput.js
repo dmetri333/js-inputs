@@ -21,16 +21,10 @@ class ImageInput {
 	}
    
 	open() {
-		this.options.mediaLibrary.config.options.multiSelectOn = false;
-		this.options.mediaLibrary.config.options.acceptedFiles = ['png', 'jpeg', 'jpg'];
-		this.options.mediaLibrary.config.options.selectCallback = this.select.bind(this);
-		this.options.mediaLibrary.config.options.selected = this.file ? [this.file.id] : [];
-		
-		this.options.mediaLibrary.reset();
-		this.options.mediaLibrary.open();
+		this.options.onOpen(this);
 	}
 	
-	select(selected) {
+	addFile(selected) {
 		if (selected.length > 0) {
 			this.file = this.prepareFile(selected[0]);
 
@@ -75,7 +69,7 @@ class ImageInput {
 
 ImageInput.DEFAULTS = {
 	name: '',
-	mediaLibrary: null,
+	onOpen: function() {},
 	templates: {
 		body: ` <input type="hidden" name="{{name}}" value="" />
 				<div class="image-input-preview" style="display: none;">

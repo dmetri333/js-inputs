@@ -1,1 +1,5 @@
-export { default as InputInitializer } from "./js/InputInitializer"
+export { default as FileInput } from "./js/FileInput"
+export { default as ImageInput } from "./js/ImageInput"
+export { default as GalleryInput } from "./js/GalleryInput"
+export { default as ColorPickerInput } from "./js/ColorPickerInput"
+export { default as AlignInput } from "./js/AlignInput"

@@ -20,14 +20,9 @@ class GalleryInput {
 	}
 	
 	open() {
-		this.options.mediaLibrary.config.options.multiSelectOn = true;
-		this.options.mediaLibrary.config.options.acceptedFiles = ['png', 'jpeg', 'jpg'];
-		this.options.mediaLibrary.config.options.selectCallback = this.addFiles.bind(this);
-		
-		this.options.mediaLibrary.reset();
-		this.options.mediaLibrary.open();
+		this.options.onOpen(this);
 	}
-		
+	
 	addFiles(selected) {
 		if (selected.length > 0) {	
 			var thumbnails = this.$element.find('.gallery-input-thumbs');
@@ -97,7 +92,7 @@ class GalleryInput {
 
 GalleryInput.DEFAULTS = {
 	name: '',
-	mediaLibrary: null,
+	onOpen: function() {},
 	templates: {
 		body: ` <input type="hidden" name="{{name}}" value="" />
 				<div class="gallery-input-preview">

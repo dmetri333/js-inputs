@@ -112,15 +112,14 @@
 	
 		<script src="/test/mock/MediaLibrary.js"></script>
 		<script src="/test/multi-spectral-picker/multi-spectral-picker.js"></script>
+		<script src="/test/Test.js"></script>
 		<script src="/dist/js/inputs.js"></script>
 		
     	<script>
 
     		$(document).ready(function() {
 
-    			var mediaLibrary = new MediaLibrary();
-    			
-    			new Inputs.InputInitializer($('.main'), mediaLibrary);
+    			new Test($('.main'));
 
           	});          	   		
     	</script>

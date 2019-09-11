@@ -21,14 +21,7 @@ class FileInput {
 	}
 	
 	open() {
-		
-		this.options.mediaLibrary.config.options.multiSelectOn = false;
-		this.options.mediaLibrary.config.options.acceptedFiles = MediaLibrary.CONFIG.acceptedFiles;
-		this.options.mediaLibrary.config.options.selectCallback = this.addFile.bind(this);
-		this.options.mediaLibrary.config.options.selected = this.file ? [this.file.id] : [];
-		
-		this.options.mediaLibrary.reset();
-		this.options.mediaLibrary.open();
+		this.options.onOpen(this);
 	}
 
 	addFile(selected) {
@@ -79,7 +72,7 @@ class FileInput {
 
 FileInput.DEFAULTS = {
 	name: '',
-	mediaLibrary: null,
+	onOpen: function() {},
 	templates: {
 		body: `
   			<input type="hidden" name="{{name}}" value="">
