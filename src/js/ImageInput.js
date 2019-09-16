@@ -6,11 +6,10 @@ class ImageInput {
 		this.element = element;
 		this.$element = $(element);
 		this.options = $.extend(true, {}, ImageInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
-		this.file = null;
 		
       	this.$element.html(Util.supplant(this.options.templates.body, {name: this.options.name}));
       	
-      	this.setInitValue();
+      	this.initValue();
 		this.initEvents();		
     }
     
@@ -24,20 +23,17 @@ class ImageInput {
 		this.options.onOpen(this);
 	}
 	
-	addFile(selected) {
-		if (selected.length > 0) {
-			this.file = this.prepareFile(selected[0]);
-
-			this.$element.find('.image-input-preview').html(Util.supplant(this.options.templates.preview, {image: this.file}));
-			this.$element.find('input').val(JSON.stringify(this.file));
-			
-			this.$element.find('.image-input-preview').show();
-			this.$element.find('.image-input-add').hide();
-		}
+	addFile(file) {
+		
+		this.$element.find('.image-input-preview').html(Util.supplant(this.options.templates.preview, {image: file}));
+		this.$element.find('input').val(JSON.stringify(file));
+		
+		this.$element.find('.image-input-preview').show();
+		this.$element.find('.image-input-add').hide();
+		
 	}
 
 	removeImage(event) {
-		this.file = null;
 		this.$element.find('input').val('');
 		this.$element.find('img').attr('src', '')
 
@@ -45,24 +41,13 @@ class ImageInput {
 		this.$element.find('.image-input-add').show();	
 	}
 	
-	setInitValue() {
+	initValue() {
 		
 		if (this.options.value) {
 			var file = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
-			this.addFile([file]);
+			this.addFile(file);
 		}
 		
-	}
-	
-	prepareFile(file) {
-		return {
-			id: file.id,
-			name: file.name,
-			basename: file.basename,
-			size: file.size,
-			path: file.path,
-			type: file.type
-		}
 	}
 	
 }
@@ -81,7 +66,7 @@ ImageInput.DEFAULTS = {
 					</p>
 				</div>`,
 		preview: `
-				<img src="{{image.path}}" alt="">
+				<img src="{{image.path}}" />
 				<div class="image-input-meta">
 					<div class="image-input-options">
 						<a class="image-input-edit-link" href="javascript:void(0);">Edit</a>&nbsp;&nbsp;					

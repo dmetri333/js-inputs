@@ -27,6 +27,7 @@ class Test {
     }
 	
 	fileOnOpen(fileInput) {
+		
 		var mediaLibrary = new MediaLibrary({
 			endpoints: {
 				load: '/test/mock/data/media.js',
@@ -34,7 +35,21 @@ class Test {
 				loadFolder: '/test/mock/endpoints/load-folder.php',
 				getAsset: '/test/mock/endpoints/get-asset.php'
 			},
-			selectCallback: fileInput.addFile.bind(fileInput),
+			selectCallback: function(selected) {
+			
+				if (selected.length > 0) {
+					
+					fileInput.addFile({
+						id: selected[0].id,
+						name: selected[0].name,
+						size: selected[0].size,
+						path: selected[0].path,
+						type: selected[0].type
+					});
+				
+				}
+				
+			},
 			selected: fileInput.file ? [fileInput.file.id] : []
 		});
 		
@@ -50,7 +65,18 @@ class Test {
 				getAsset: '/test/mock/endpoints/get-asset.php'
 			},
 			acceptedFiles: ['png', 'jpeg', 'jpg'],
-			selectCallback: imageInput.addFile.bind(imageInput),
+			selectCallback: function(selected) {
+				
+				if (selected.length > 0) {
+					
+					imageInput.addFile({
+						id: selected[0].id,
+						path: selected[0].path,
+					});
+				
+				}
+				
+			},
 			selected: imageInput.file ? [imageInput.file.id] : []
 		});
 		
@@ -67,7 +93,16 @@ class Test {
 			},
 			multiSelectOn: true,
 			acceptedFiles: ['png', 'jpeg', 'jpg'],
-			selectCallback: galleryInput.addFiles.bind(galleryInput)
+			selectCallback: function(selected) {
+				
+				for (var i = 0; i < selected.length; i++) {
+					galleryInput.addFile({
+						id: selected[i].id,
+						path: selected[i].path,
+					});
+				}
+				
+			}
 		});
 		
 		mediaLibrary.open();

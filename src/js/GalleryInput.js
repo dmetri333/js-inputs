@@ -10,7 +10,7 @@ class GalleryInput {
 		
 		this.$element.html(Util.supplant(this.options.templates.body, {name: this.options.name}));
 
-		this.setInitValue();
+		this.initValue();
 		this.initEvents();
 	}
 	    
@@ -23,31 +23,17 @@ class GalleryInput {
 		this.options.onOpen(this);
 	}
 	
-	addFiles(selected) {
-		if (selected.length > 0) {	
-			var thumbnails = this.$element.find('.gallery-input-thumbs');
-			
-			var inputIds = this.getImageIdList(this.files);
-			
-			for (var j = 0; j < selected.length; j++) {
-				var image = this.prepareFile(selected[j]);
-				if (!inputIds.includes(image.id)) {	
-					this.files.push(image);
-					thumbnails.append(Util.supplant(this.options.templates.thumb, {image: image}));
-				}				
-			}
-			
-			this.$element.find('input').val(JSON.stringify(this.files));
-		}
+	addFile(file) {
+		var fileIds = this.files.map(function(item) { return item.id; });
 		
+		if (!fileIds.includes(file.id)) {	
+			this.$element.find('.gallery-input-thumbs').append(Util.supplant(this.options.templates.thumb, {image: file}));
+			this.files.push(file);
+		}				
+
+		this.$element.find('input').val(JSON.stringify(this.files));
 	}
 	
-	setInitValue() {
-		if (this.options.value) {
-			var files = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
-			this.addFiles(files);
-		}
-	}
 	
 	removeImage(event) {
 		var target = event.currentTarget;
@@ -68,25 +54,15 @@ class GalleryInput {
 		this.$element.find('input').val(JSON.stringify(this.files));	
 	}
 	
-	getImageIdList(images) {
-		var list = [];
-		for (var i = 0; i < images.length; i++) {
-			list.push(images[i].id);
+	initValue() {
+		if (this.options.value) {
+			var files = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
+			for (var i = 0; i < files.length; i++) {
+				this.addFile(files[i]);
+			}
 		}
-		
-		return list;
 	}
 	
-	prepareFile(file) {
-		return {
-			id: file.id,
-			name: file.name,
-			basename: file.basename,
-			size: file.size,
-			path: file.path,
-			type: file.type
-		}
-	}
 }
 
 

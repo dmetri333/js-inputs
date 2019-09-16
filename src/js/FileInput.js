@@ -6,11 +6,10 @@ class FileInput {
 		this.element = element;
 		this.$element = $(element);
 		this.options = $.extend(true, {}, FileInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
-		this.file = null;
 		
 		this.$element.html(Util.supplant(this.options.templates.body, {name: this.options.name}));
 		
-		this.setInitValue();
+		this.initValue();
 		this.initEvents();
     }
     
@@ -19,26 +18,27 @@ class FileInput {
 		this.$element.on('click', '.file-input-edit-link', this.open.bind(this));
 		this.$element.on('click', '.file-input-remove-link', this.removeFile.bind(this));
 	}
-	
+
 	open() {
 		this.options.onOpen(this);
 	}
-
-	addFile(selected) {
-		if (selected.length > 0) {
-			this.file = this.prepareFile(selected[0]);
-			
-			this.$element.find('.file-input-preview').html(Util.supplant(this.options.templates.preview, {file: this.file}));
-			
-			this.$element.find('input').val(JSON.stringify(this.file));
-			
-			this.$element.find('.file-input-preview').show();
-			this.$element.find('.file-input-add').hide();
+	
+	addFile(file) {
+		
+		if (!file.type) {
+			file.type = file.name.split('.').pop();
 		}
+		
+		this.$element.find('.file-input-preview').html(Util.supplant(this.options.templates.preview, {file: file}));
+		
+		this.$element.find('input').val(JSON.stringify(file));
+		
+		this.$element.find('.file-input-preview').show();
+		this.$element.find('.file-input-add').hide();
+		
 	}
 	
 	removeFile() {
-		this.file = null;
 		this.$element.find('input').val('');
 		this.$element.find('.file-input-preview').html('');
 		
@@ -47,26 +47,15 @@ class FileInput {
 	}
 	
 	
-	setInitValue() {
+	initValue() {
 	
 		if (this.options.value) {
 			var file = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
-			this.addFile([file]);
+			this.addFile(file);
 		}
 		
 	}
-	
-	prepareFile(file) {
-		return {
-			id: file.id,
-			name: file.name,
-			basename: file.basename,
-			size: file.size,
-			path: file.path,
-			type: file.type
-		}
-	}
-		
+
 }
 
 
@@ -88,9 +77,8 @@ FileInput.DEFAULTS = {
 				</div>
 				<div class="file-input-details">
 					<div class="file-input-meta">
-						<div><strong>{{file.basename}}</strong></div>
-						<div><strong>File name:</strong> {{file.name}}</div>
-						<div><strong>File size:</strong> {{file.size}}</div>
+						<div><strong>{{file.name}}</strong></div>
+						<div>{{file.size}}</div>
 					</div>
 					<div class="file-input-options">
 						<a class="file-input-edit-link" href="javascript:void(0);">Edit</a>&nbsp;&nbsp;					
