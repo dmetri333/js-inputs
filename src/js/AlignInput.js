@@ -1,4 +1,4 @@
-import Util from '@dmetri333/page-builder-util';
+import Util from '@foragefox/page-builder-util';
 
 class AlignInput {
 
