@@ -3,58 +3,57 @@ class MediaLibrary {
 	
 	constructor(options) {
 		//this.options = $.extend(true, {}, MediaLibrary.DEFAULTS, typeof options == 'object' && options);
-		
-		
+	
 		this.assets = [
 			{
 				id: 3,
 				parentId: 0,
 				name: "starry-night-alex-ruiz.jpg",
+				isFolder: false,
+				path: "http://images.fineartamerica.com/images-medium-large/starry-night-alex-ruiz.jpg",
 				basename: "starry-night-alex-ruiz",
-				size: "163 KB ",
-				height: 578,
-				width: 864,
 				extension: "jpg",
-				type: "jpg",
-				icon: 'image',
-				path: "http://images.fineartamerica.com/images-medium-large/starry-night-alex-ruiz.jpg"
+	            size: "163 KB",
+	            isImage: true,
+	            height: 578,
+				width: 864
 			},
 			{
 				id: 4,
 				parentId: 0,
 				name: "img_lights.jpg",
+				isFolder: false,
+				path: "https://www.w3schools.com/w3css/img_lights.jpg",
 				basename: "img_lights",
-				size: "20 KB",
-				height: 400,
-				width: 600,
 				extension: "jpg",
-				type: "jpg",
-				icon: 'image',
-				path: "https://www.w3schools.com/w3css/img_lights.jpg"
+	            size: "20 KB",
+	            isImage: true,
+	            height: 400,
+				width: 600
 			},
 			{
 				id: 5,
 				parentId: 0,
 				name: "rose-blue-flower-rose-blooms-67636.jpeg",
+				isFolder: false,
+				path: "http://images.fineartamerica.com/images-medium-large/starry-night-alex-ruiz.jpg",
 				basename: "rose-blue-flower-rose-blooms-67636",
-				size: "21 KB",
-				height: 331,
-				width: 500,
-				extension: "jpeg",
-				type: "jpeg",
-				icon: 'image',
-				path: "http://images.fineartamerica.com/images-medium-large/starry-night-alex-ruiz.jpg"
+				extension: "jpg",
+	            sizes: "21 KB",
+	            isImage: true,
+	            height: 331,
+				width: 500
 			},
 			{
 				id: 6,
 				parentId: 0,
 				name: "document-1.pdf",
-				basename: "document-1",
-				size: "1 MB",
-				type: "pdf",
+				isFolder: false,
+				path: "",
+	            basename: "document-1",
 				extension: "pdf",
-				icon: 'pdf',
-				url: "/document-1.pdf"
+				size: "1 MB",
+	            isImage: false,
 			}
 			
 		];
@@ -86,7 +85,7 @@ class MediaLibrary {
 		var length = this.config.options.multiSelectOn ? 3 : 1;
 		
 		for (var i = 0; i < length; i++) {
-			if (this.config.options.acceptedFiles.includes(this.assets[i].type)) {
+			if (this.config.options.acceptedFiles.includes(this.assets[i].extension)) {
 				data.push(this.assets[i]);
 			}	
 			

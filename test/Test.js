@@ -29,14 +29,8 @@ class Test {
 	fileOnOpen(fileInput) {
 		
 		var mediaLibrary = new MediaLibrary({
-			endpoints: {
-				load: '/test/mock/data/media.js',
-				upload: '/test/mock/endpoints/file-upload.php',
-				loadFolder: '/test/mock/endpoints/load-folder.php',
-				getAsset: '/test/mock/endpoints/get-asset.php'
-			},
-			selectCallback: function(selected) {
 			
+			selectCallback: function(selected) {
 				if (selected.length > 0) {
 					
 					fileInput.addFile({
@@ -44,7 +38,7 @@ class Test {
 						name: selected[0].name,
 						size: selected[0].size,
 						path: selected[0].path,
-						type: selected[0].type
+						type: selected[0].extension
 					});
 				
 				}
@@ -58,12 +52,7 @@ class Test {
 	
 	imageOnOpen(imageInput) {
 		var mediaLibrary = new MediaLibrary({
-			endpoints: {
-				load: '/test/mock/data/media.js',
-				upload: '/test/mock/endpoints/file-upload.php',
-				loadFolder: '/test/mock/endpoints/load-folder.php',
-				getAsset: '/test/mock/endpoints/get-asset.php'
-			},
+			
 			acceptedFiles: ['png', 'jpeg', 'jpg'],
 			selectCallback: function(selected) {
 				
@@ -71,7 +60,7 @@ class Test {
 					
 					imageInput.addFile({
 						id: selected[0].id,
-						path: selected[0].path,
+						path: selected[0].path
 					});
 				
 				}
@@ -85,20 +74,14 @@ class Test {
 	
 	galleryOnOpen(galleryInput) {
 		var mediaLibrary = new MediaLibrary({
-			endpoints: {
-				load: '/test/mock/data/media.js',
-				upload: '/test/mock/endpoints/file-upload.php',
-				loadFolder: '/test/mock/endpoints/load-folder.php',
-				getAsset: '/test/mock/endpoints/get-asset.php'
-			},
+			
 			multiSelectOn: true,
 			acceptedFiles: ['png', 'jpeg', 'jpg'],
 			selectCallback: function(selected) {
-				
 				for (var i = 0; i < selected.length; i++) {
 					galleryInput.addFile({
 						id: selected[i].id,
-						path: selected[i].path,
+						path: selected[i].path
 					});
 				}
 				

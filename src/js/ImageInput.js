@@ -24,6 +24,7 @@ class ImageInput {
 	}
 	
 	addFile(file) {
+		this.file = file;
 		
 		this.$element.find('.image-input-preview').html(Util.supplant(this.options.templates.preview, {image: file}));
 		this.$element.find('input').val(JSON.stringify(file));
@@ -34,6 +35,8 @@ class ImageInput {
 	}
 
 	removeImage(event) {
+		this.file = null;
+		
 		this.$element.find('input').val('');
 		this.$element.find('img').attr('src', '')
 
@@ -45,6 +48,7 @@ class ImageInput {
 		
 		if (this.options.value) {
 			var file = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
+			this.file = file;
 			this.addFile(file);
 		}
 		

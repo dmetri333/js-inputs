@@ -24,6 +24,7 @@ class FileInput {
 	}
 	
 	addFile(file) {
+		this.file = file;
 		
 		if (!file.type) {
 			file.type = file.name.split('.').pop();
@@ -39,6 +40,8 @@ class FileInput {
 	}
 	
 	removeFile() {
+		this.file = null;
+		
 		this.$element.find('input').val('');
 		this.$element.find('.file-input-preview').html('');
 		
@@ -51,6 +54,7 @@ class FileInput {
 	
 		if (this.options.value) {
 			var file = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
+			this.file = file;
 			this.addFile(file);
 		}
 		
