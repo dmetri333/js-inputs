@@ -4,6 +4,8 @@
     	<meta charset="UTF-8">
     	<title>Form Inputs</title>
     	
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    	
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
     	<link rel="stylesheet" href="/test/multi-spectral-picker/light.css">
@@ -42,11 +44,26 @@
 							<div class="gallery-input" data-input="gallery" data-name="gallery-input-1" data-value='[{"id":"4505d706a4214de8","path":"data/assets/Screen Shot 2019-01-06 at 10.00.11 PM.png"},{"id":"4465d706a2b51165","path":"data/assets/Screen Shot 2019-08-28 at 2.54.13 PM.png"}]'></div>
 						</div>
 						<br>
+						
+						
+						<style>
+							.color-preview { min-height: 20px; min-width: 20px; }
+							.color-picker-input { display: inline-block; }
+							#palette-popover { display: none; margin: 10px; background-color: #fff; padding: 10px; border-radius: 5px; border: 1px solid rgba(0,0,0,.2); box-shadow: 0 5px 10px rgba(0,0,0,.2) }
+							#palette-popover #palette { display: none; }
+							#palette-popover #mini-palette { width: 300px; display: inline-block; }
+							#palette-popover #mini-palette .palette-item { width: 20%; padding-top: 10%; float: left; }
+							#palette-popover .palette-form-group { display: flex; width: 300px; margin: 10px 0 0 0; align-items: center; }
+							#palette-popover .palette-form-group label { margin: 0 10px 0 0; }
+							#palette-popover .palette-form-group input { min-width: 0; flex: auto;}
+							#palette-popover .color-preview { width: 50px; margin-left: 10px; }
+						</style>
 
 						<h1>Color Picker Input</h1>
 						<div class="form-group">
-							<div class="color-picker-input" data-input="color-picker" data-name="color-picker-input-1"></div>
+							<div id="color-wrapper" class="color-picker-input" data-input="color-picker" data-name="color-picker-input-1"></div>
 						</div>
+						
 						<br>
 						
 						<h1>Align Input</h1>
