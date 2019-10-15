@@ -22,7 +22,8 @@ class ColorPickerInput {
 		this.$rgbInput = $('#rgb');		
 		this.$preview = $('.color-preview');
 		this.$popper = $('#palette-popover');
-		this.$paletteToggle = $('#palette-toggle')
+		this.$paletteToggle = $('#palette-toggle');
+		this.$clear = $('#clear-fields');
 		this.hex;
 		this.rgb;
 		new Popper(this.$input, this.$popper, { placement: 'right' } );
@@ -40,8 +41,14 @@ class ColorPickerInput {
 		this.$hexInput.change(this.handleManualHexInput.bind(this));
 		this.$rgbInput.change(this.handleManualRgbInput.bind(this));
 		this.$input.change(this.handleManualHexInput.bind(this));
+		this.$clear.click(this.clearFields.bind(this));
 	}
 	
+	clearFields(){
+		this.hex = null;
+		this.rgb = null;
+		this.populateInputs();
+	}
 	
 	handleManualHexInput(e){
 		var newHexVal = $(e.target).val()
@@ -99,7 +106,8 @@ class ColorPickerInput {
 		this.$input.val(this.hex);
 		this.$hexInput.val(this.hex);
 		this.$rgbInput.val(this.rgb);
-		this.$preview.css('background-color', this.hex);
+		
+		this.$preview.css('background-color', (this.hex) ? this.hex : '');
 	}
 	
 	
@@ -221,8 +229,10 @@ ColorPickerInput.DEFAULTS = {
 					<label for="rgb">RGB: </label>
 					<input type="text" id="rgb"></input>					
 				</div>
-				<a id="palette-toggle" href="javascript:void(0)">toggle palettes</a>
-				<a id="clear-fields" href="javascript:void(0)"></a>
+				<div id="palette-toolbar">
+					<a id="palette-toggle" href="javascript:void(0)">toggle palettes</a>
+					<a id="clear-fields" href="javascript:void(0)">clear</a>
+				</div>
 			</div>
 		`
 	}
