@@ -25,7 +25,7 @@ class ColorPickerInput {
 		this.$paletteToggle = $('#palette-toggle')
 		this.hex;
 		this.rgb;
-		new Popper(this.$input, this.$popper)
+		new Popper(this.$input, this.$popper, { placement: 'right' } );
 		this.renderMiniPalette();
 	}
 	
@@ -36,8 +36,35 @@ class ColorPickerInput {
 		this.$palette.click(this.handlePaletteSelect.bind(this));
 		this.$input.on('focus', this.show.bind(this))
 		this.$paletteToggle.click(this.togglePalette.bind(this));
+
+		this.$hexInput.change(this.handleManualHexInput.bind(this));
+		this.$rgbInput.change(this.handleManualRgbInput.bind(this));
+		this.$input.change(this.handleManualHexInput.bind(this));
 	}
 	
+	
+	handleManualHexInput(e){
+		var newHexVal = $(e.target).val()
+		if (!this.isHexColor(newHexVal.replace('#', ''))){
+			return
+		}
+		this.hex = newHexVal;
+		this.rgb = this.hexToRgb(this.hex);
+		this.populateInputs();
+	}
+	
+	
+	isHexColor(hex) {
+		return typeof hex === 'string' && hex.length === 6 && !isNaN(Number('0x' + hex))
+	}
+	
+	
+	handleManualRgbInput(e){
+		this.rgb = $(e.target).val();
+		this.hex = (this.rgbToHex(this.rgb)) ? this.rgbToHex(this.rgb) : this.hex;
+		this.populateInputs();
+	}
+
 	
 	show(){
 		this.$popper.show();
@@ -120,6 +147,7 @@ class ColorPickerInput {
         var y = e.pageY - this.$palette.offset().top;
 
         var data = this.ctx.getImageData(x, y, 1, 1).data
+        
         this.hex = '#' + this.decToHex(data[0]) + this.decToHex(data[1]) + this.decToHex(data[2])        
         this.rgb = this.hexToRgb(this.hex);
 		
@@ -133,11 +161,19 @@ class ColorPickerInput {
 	}
 	
 	
-	decToHex(dec) {
-		 var hex = dec.toString(16);
-		 return hex.length == 2 ? hex : '0' + hex;
+	rgbToHex(rgbStr){
+		var rgb = rgbStr.split(",")
+		if (rgb.length != 3 || rgb.filter(val => val < 0 || val > 255).length != 0 ) {
+			return null
+		}
+		return '#' + this.decToHex(rgb[0]) + this.decToHex(rgb[1]) + this.decToHex(rgb[2])
 	}
 	
+	
+	decToHex(dec) {
+		 var hex = parseInt(dec).toString(16);
+		 return hex.length == 1 ? "0" + hex : hex;
+	}
 	
 }
 	
@@ -186,6 +222,7 @@ ColorPickerInput.DEFAULTS = {
 					<input type="text" id="rgb"></input>					
 				</div>
 				<a id="palette-toggle" href="javascript:void(0)">toggle palettes</a>
+				<a id="clear-fields" href="javascript:void(0)"></a>
 			</div>
 		`
 	}
