@@ -25,6 +25,10 @@ class ColorPickerInput {
 		this.$paletteToggle = this.$container.find('.palette-toggle');
 		this.$clear = this.$container.find('.clear-fields');
 		this.hex;
+		
+		this.$hexInput[0].setCustomValidity("Please enter a valid hex color code.");
+		this.$rgbInput[0].setCustomValidity("Please enter a valid RGB value.");
+
 		this.rgb;
 		new Popper(this.$input, this.$popper, { placement: 'right', modifiers: { arrow: { element: '.popper__arrow' }}} );
 		this.renderMiniPalette();
@@ -38,17 +42,19 @@ class ColorPickerInput {
 		this.$input.on('focus', this.show.bind(this))
 		this.$paletteToggle.click(this.togglePalette.bind(this));
 
-		this.$hexInput.change(this.handleManualHexInput.bind(this));
+		this.$hexInput.on('change', this.handleManualHexInput.bind(this));
 		this.$rgbInput.change(this.handleManualRgbInput.bind(this));
 		this.$input.change(this.handleManualHexInput.bind(this));
 		this.$clear.click(this.clearFields.bind(this));
 	}
+	
 	
 	clearFields(){
 		this.hex = null;
 		this.rgb = null;
 		this.populateInputs();
 	}
+	
 	
 	handleManualHexInput(e){
 		var newHexVal = $(e.target).val()
@@ -59,14 +65,12 @@ class ColorPickerInput {
 		this.rgb = this.hexToRgb(this.hex);
 		this.populateInputs();
 	}
-	
-	
-	isHexColor(hex) {
-		return typeof hex === 'string' && hex.length === 6 && !isNaN(Number('0x' + hex))
-	}
-	
+
 	
 	handleManualRgbInput(e){
+		if (!$('#rgb-form')[0].reportValidity()) {
+			return
+		}
 		this.rgb = $(e.target).val();
 		this.hex = (this.rgbToHex(this.rgb)) ? this.rgbToHex(this.rgb) : this.hex;
 		this.populateInputs();
@@ -80,11 +84,11 @@ class ColorPickerInput {
 	
 	
 	close(e) {
-//		var $target = $(e.target);
-//		var containerId = '.' + this.$container.attr('id');
-//		if ($target != this.$container && !$target.closest(containerId).length){
-//			this.$popper.hide();
-//		}
+		var $target = $(e.target);
+		var containerId = '#' + this.$container.attr('id');
+		if ($target != this.$container && !$target.closest(containerId).length){
+			this.$popper.hide();
+		}
 	}
 	
 	
@@ -183,6 +187,11 @@ class ColorPickerInput {
 		 return hex.length == 1 ? "0" + hex : hex;
 	}
 	
+	
+	isHexColor(hex) {
+		return typeof hex === 'string' && hex.length === 6 && !isNaN(Number('0x' + hex))
+	}
+	
 }
 	
 
@@ -220,15 +229,19 @@ ColorPickerInput.DEFAULTS = {
 			<div class="palette-popover">
 				<div class="mini-palette"></div>
 				<canvas class="palette" width="300" height="150" ></canvas>
-				<div class="palette-form-group">
-					<label class="hexLabel" for="hex">HEX: </label>    
-					<input type="text" class="hex"></input>
-					<input type="text" class="color-preview"></input>
-				</div>
-				<div class="palette-form-group">
-					<label for="rgb">RGB: </label>
-					<input type="text" class="rgb"></input>					
-				</div>
+				<form class="hex-form">
+					<div class="palette-form-group">
+						<label class="hexLabel" for="hex">HEX: </label>    
+						<input type="text" class="hex"></input>
+						<input type="text" class="color-preview"></input>
+					</div>
+				</form>
+					<div class="palette-form-group">
+						<label for="rgb">RGB: </label>
+						<form id="rgb-form">
+							<input name="rgb" class="rgb" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
+						</form>
+					</div>
 				<div class="palette-toolbar">
 					<a class="clear-fields" href="javascript:void(0)"><svg width="24" height="24"><path stroke="#E03E2D" stroke-width="2" d="M21 3L3 21" fill-rule="evenodd"></path></svg></a>
 					<a class="palette-toggle" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M0 0h24v24H0z" fill="none"/></svg></a>
