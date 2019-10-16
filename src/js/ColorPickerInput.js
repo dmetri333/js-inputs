@@ -14,19 +14,19 @@ class ColorPickerInput {
 	renderPopover(){
 		this.$container = $(this.container);
 		this.$container.html(Util.supplant(this.options.templates.body, {name: this.options.name}));
-		this.$input = $('#color-picker-input');
-		this.$miniPalette = $('#mini-palette');
-		this.$palette = $('#palette');
+		this.$input = this.$container.find('.color-picker-input');
+		this.$miniPalette = this.$container.find('.mini-palette');
+		this.$palette = this.$container.find('.palette');
 		this.ctx = this.$palette[0].getContext('2d');
-		this.$hexInput = $('#hex');
-		this.$rgbInput = $('#rgb');		
-		this.$preview = $('.color-preview');
-		this.$popper = $('#palette-popover');
-		this.$paletteToggle = $('#palette-toggle');
-		this.$clear = $('#clear-fields');
+		this.$hexInput = this.$container.find('.hex');
+		this.$rgbInput = this.$container.find('.rgb');		
+		this.$preview = this.$container.find('.color-preview');
+		this.$popper = this.$container.find('.palette-popover');
+		this.$paletteToggle = this.$container.find('.palette-toggle');
+		this.$clear = this.$container.find('.clear-fields');
 		this.hex;
 		this.rgb;
-		new Popper(this.$input, this.$popper, { placement: 'right' } );
+		new Popper(this.$input, this.$popper, { placement: 'right', modifiers: { arrow: { element: '.popper__arrow' }}} );
 		this.renderMiniPalette();
 	}
 	
@@ -80,11 +80,11 @@ class ColorPickerInput {
 	
 	
 	close(e) {
-		var $target = $(e.target);
-		var containerId = '#' + this.$container.attr('id');
-		if ($target != this.$container && !$target.closest(containerId).length){
-			this.$popper.hide();
-		}
+//		var $target = $(e.target);
+//		var containerId = '.' + this.$container.attr('id');
+//		if ($target != this.$container && !$target.closest(containerId).length){
+//			this.$popper.hide();
+//		}
 	}
 	
 	
@@ -216,23 +216,24 @@ ColorPickerInput.DEFAULTS = {
 	templates: {
 		body: `
 			<div class="color-preview"></div>
-			<input id="color-picker-input" name="{{name}}" />
-			<div id="palette-popover">
-				<div id="mini-palette"></div>
-				<canvas id="palette" width="300" height="150" ></canvas>
+			<input class="color-picker-input" name="{{name}}" />
+			<div class="palette-popover">
+				<div class="mini-palette"></div>
+				<canvas class="palette" width="300" height="150" ></canvas>
 				<div class="palette-form-group">
-					<label id="hexLabel" for="hex">HEX: </label>    
-					<input type="text" id="hex"></input>
+					<label class="hexLabel" for="hex">HEX: </label>    
+					<input type="text" class="hex"></input>
 					<input type="text" class="color-preview"></input>
 				</div>
 				<div class="palette-form-group">
 					<label for="rgb">RGB: </label>
-					<input type="text" id="rgb"></input>					
+					<input type="text" class="rgb"></input>					
 				</div>
-				<div id="palette-toolbar">
-					<a id="palette-toggle" href="javascript:void(0)">toggle palettes</a>
-					<a id="clear-fields" href="javascript:void(0)">clear</a>
+				<div class="palette-toolbar">
+					<a class="palette-toggle" href="javascript:void(0)">toggle palettes</a>
+					<a class="clear-fields" href="javascript:void(0)">clear</a>
 				</div>
+				<div class="arrow" x-arrow="" style="top: 10px;"></div>
 			</div>
 		`
 	}
