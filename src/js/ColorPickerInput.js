@@ -42,7 +42,7 @@ class ColorPickerInput {
 		this.$input.on('focus', this.show.bind(this))
 		this.$paletteToggle.click(this.togglePalette.bind(this));
 
-		this.$hexInput.on('change', this.handleManualHexInput.bind(this));
+		this.$hexInput.change(this.handleManualHexInput.bind(this));
 		this.$rgbInput.change(this.handleManualRgbInput.bind(this));
 		this.$input.change(this.handleManualHexInput.bind(this));
 		this.$clear.click(this.clearFields.bind(this));
@@ -58,9 +58,11 @@ class ColorPickerInput {
 	
 	handleManualHexInput(e){
 		var newHexVal = $(e.target).val()
-		if (!this.isHexColor(newHexVal.replace('#', ''))){
+		if (!this.isHexColor(newHexVal)){
+			this.$hexInput[0].reportValidity();
 			return
 		}
+		
 		this.hex = newHexVal;
 		this.rgb = this.hexToRgb(this.hex);
 		this.populateInputs();
@@ -68,10 +70,11 @@ class ColorPickerInput {
 
 	
 	handleManualRgbInput(e){
-		if (!$('#rgb-form')[0].reportValidity()) {
+		this.rgb = $(e.target).val();
+		if (!this.isRgb(this.rgb)){
+			this.$rgbInput[0].reportValidity();
 			return
 		}
-		this.rgb = $(e.target).val();
 		this.hex = (this.rgbToHex(this.rgb)) ? this.rgbToHex(this.rgb) : this.hex;
 		this.populateInputs();
 	}
@@ -189,7 +192,11 @@ class ColorPickerInput {
 	
 	
 	isHexColor(hex) {
-		return typeof hex === 'string' && hex.length === 6 && !isNaN(Number('0x' + hex))
+		return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
+	}
+	
+	isRgb(rgb){
+		return /^[0-9]{1,3}\s*,\s*[0-9]{1,3}\s*,\s*[0-9]{1,3}$/i.test(rgb);
 	}
 	
 }
@@ -229,18 +236,14 @@ ColorPickerInput.DEFAULTS = {
 			<div class="palette-popover">
 				<div class="mini-palette"></div>
 				<canvas class="palette" width="300" height="150" ></canvas>
-				<form class="hex-form">
 					<div class="palette-form-group">
 						<label class="hexLabel" for="hex">HEX: </label>    
 						<input type="text" class="hex"></input>
-						<input type="text" class="color-preview"></input>
+						<input type="text" class="color-preview" pattern="#([0-9A-F]{3}){1,2}"></input>
 					</div>
-				</form>
 					<div class="palette-form-group">
 						<label for="rgb">RGB: </label>
-						<form id="rgb-form">
-							<input name="rgb" class="rgb" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
-						</form>
+						<input name="rgb" class="rgb" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
 					</div>
 				<div class="palette-toolbar">
 					<a class="clear-fields" href="javascript:void(0)"><svg width="24" height="24"><path stroke="#E03E2D" stroke-width="2" d="M21 3L3 21" fill-rule="evenodd"></path></svg></a>
