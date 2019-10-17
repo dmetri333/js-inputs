@@ -238,8 +238,8 @@ ColorPickerInput.DEFAULTS = {
 				<canvas class="palette" width="300" height="150" ></canvas>
 					<div class="palette-form-group">
 						<label class="hexLabel" for="hex">HEX: </label>    
-						<input type="text" class="hex"></input>
-						<input type="text" class="color-preview" pattern="#([0-9A-F]{3}){1,2}"></input>
+						<input type="text" class="hex" autocomplete="off"></input>
+						<input type="text" class="color-preview" pattern="#([0-9A-F]{3}){1,2}" autocomplete="off"></input>
 					</div>
 					<div class="palette-form-group">
 						<label for="rgb">RGB: </label>
