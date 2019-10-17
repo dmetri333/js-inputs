@@ -30,7 +30,7 @@ class ColorPickerInput {
 		this.$rgbInput[0].setCustomValidity("Please enter a valid RGB value.");
 
 		this.rgb;
-		new Popper(this.$input, this.$popper, { placement: 'right', modifiers: { arrow: { element: '.popper__arrow' }}} );
+		new Popper(this.$input, this.$popper, { placement: 'right'} );
 		this.renderMiniPalette();
 	}
 	
@@ -238,18 +238,17 @@ ColorPickerInput.DEFAULTS = {
 				<canvas class="palette" width="300" height="150" ></canvas>
 					<div class="palette-form-group">
 						<label class="hexLabel" for="hex">HEX: </label>    
-						<input type="text" class="hex" autocomplete="off"></input>
-						<input type="text" class="color-preview" pattern="#([0-9A-F]{3}){1,2}" autocomplete="off"></input>
+						<input type="text" class="hex" pattern="#([0-9A-F]{3}){1,2}" autocomplete="off"></input>
+						<div class="color-preview"></div>
 					</div>
 					<div class="palette-form-group">
 						<label for="rgb">RGB: </label>
-						<input name="rgb" class="rgb" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
+						<input name="rgb" class="rgb" autocomplete="off" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
 					</div>
 				<div class="palette-toolbar">
 					<a class="clear-fields" href="javascript:void(0)"><svg width="24" height="24"><path stroke="#E03E2D" stroke-width="2" d="M21 3L3 21" fill-rule="evenodd"></path></svg></a>
 					<a class="palette-toggle" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M0 0h24v24H0z" fill="none"/></svg></a>
 				</div>
-				<div class="arrow" x-arrow="" style="top: 10px;"></div>
 			</div>
 		`
 	}
