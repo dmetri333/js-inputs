@@ -13,7 +13,6 @@ class ColorPickerInput {
 		this.bindEvents();
 	}
 	
-	
 	renderPopover() {
 		
 		this.$input = this.$container.find('.color-input');
