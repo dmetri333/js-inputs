@@ -16,7 +16,7 @@ class ColorPickerInput {
 	
 	renderPopover() {
 		
-		this.$input = this.$container.find('.color-picker-input');
+		this.$input = this.$container.find('.color-input');
 		this.$popper = this.$container.find('.palette-popover');
 		this.$miniPalette = this.$container.find('.mini-palette');
 		this.$palette = this.$container.find('.palette');
@@ -36,7 +36,7 @@ class ColorPickerInput {
 	}
 	
 	bindEvents() {
-		$(document).on('click', this.close.bind(this))
+		$(document).on('click', this.close.bind(this));
 		this.$input.on('focus', this.show.bind(this));
 		this.$paletteToggle.on('click', this.togglePalette.bind(this));
 		this.$clear.on('click', this.clearFields.bind(this));
@@ -49,8 +49,7 @@ class ColorPickerInput {
 	
 	close(e) {
 		var $target = $(e.target);
-		var containerId = '#' + this.$container.attr('id');
-		if ($target != this.$container && !$target.closest(containerId).length){
+		if ($target != this.$container && !$target.closest(this.$container).length){
 			this.$popper.hide();
 		}
 	}
@@ -214,7 +213,7 @@ ColorPickerInput.DEFAULTS = {
 	templates: {
 		body: `
 			<div class="color-preview"></div>
-			<input class="color-picker-input" name="{{name}}" autocomplete="off" />
+			<input class="color-input" name="{{name}}" autocomplete="off" />
 			<div class="palette-popover">
 				<div class="mini-palette"></div>
 				<canvas class="palette" width="300" height="150" ></canvas>
