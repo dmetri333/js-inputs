@@ -7,10 +7,16 @@ class ColorPickerInput {
 		this.$container = $(this.container);
 		this.options = $.extend(true, {}, ColorPickerInput.DEFAULTS, this.container.dataset, typeof options == 'object' && options);
 		
-		this.$container.html(Util.supplant(this.options.templates.body, {name: this.options.name}));
+		this.$container.append(Util.supplant(this.options.templates.input, {name: this.options.name}));
+		this.$container.append(Util.supplant(this.options.templates.popover));
 		
 		this.renderPopover();
 		this.bindEvents();
+		
+		if (this.options.value) {
+			this.$input.val(this.options.value);
+			this.$input.change();
+		}
 	}
 	
 	renderPopover() {
@@ -29,7 +35,7 @@ class ColorPickerInput {
 		this.$hexInput[0].setCustomValidity('Please enter a valid hex color code.');
 		this.$rgbInput[0].setCustomValidity('Please enter a valid RGB value.');
 		
-		new Popper(this.$input, this.$popper, { placement: 'right'} );
+		new Popper(this.$input, this.$popper, { placement: 'bottom' } );
 		
 		this.renderMiniPalette();
 	}
@@ -210,9 +216,15 @@ ColorPickerInput.DEFAULTS = {
 		'#FFFFFF',
 	],
 	templates: {
-		body: `
-			<div class="color-preview"></div>
-			<input class="color-input" name="{{name}}" autocomplete="off" />
+		input: `
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text color-preview"></span>
+				</div>
+				<input type="text" class="form-control color-input" name="{{name}}" autocomplete="off" />
+			</div>
+			`,
+		popover: `
 			<div class="palette-popover">
 				<div class="mini-palette"></div>
 				<canvas class="palette" width="300" height="150" ></canvas>

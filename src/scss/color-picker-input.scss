@@ -1,11 +1,7 @@
 .color-picker-input {
-  display: inline-block;
-
-  .color-preview {
-    min-height: 20px;
-    min-width: 20px;
-    border-style: none;
-    height: 26px;
+  .input-group-text {
+    min-width: 40px;
+    border: none;
   }
 
   .palette-popover {
@@ -53,6 +49,8 @@
   .palette-popover .color-preview {
     width: 50px;
     margin-left: 10px;
+    border-style: none;
+    height: 26px;
   }
 
   .palette-popover .palette-toolbar {
