@@ -20,7 +20,6 @@ class ColorPickerInput {
 	}
 	
 	renderPopover() {
-		
 		this.$input = this.$container.find('.color-input');
 		this.$popper = this.$container.find('.palette-popover');
 		this.$miniPalette = this.$container.find('.mini-palette');
@@ -31,9 +30,6 @@ class ColorPickerInput {
 		this.$preview = this.$container.find('.color-preview');
 		this.$paletteToggle = this.$container.find('.palette-toggle');
 		this.$clear = this.$container.find('.clear-fields');
-		
-		this.$hexInput[0].setCustomValidity('Please enter a valid hex color code.');
-		this.$rgbInput[0].setCustomValidity('Please enter a valid RGB value.');
 		
 		new Popper(this.$input, this.$popper, { placement: 'bottom' } );
 		
@@ -84,8 +80,7 @@ class ColorPickerInput {
 	handleManualHexInput(e) {
 		var newHexVal = $(e.target).val()
 		if (!this.isHexColor(newHexVal)) {
-			this.$hexInput[0].reportValidity();
-			return
+			return;
 		}
 		
 		var hex = newHexVal;
@@ -96,8 +91,7 @@ class ColorPickerInput {
 	handleManualRgbInput(e) {
 		var rgb = $(e.target).val();
 		if (!this.isRgb(rgb)) {
-			this.$rgbInput[0].reportValidity();
-			return
+			return;
 		}
 		
 		var hex = (this.rgbToHex(rgb)) ? this.rgbToHex(rgb) : hex;
@@ -106,8 +100,8 @@ class ColorPickerInput {
 
 	handleMiniPaletteSelect(e) {
 		var $target = $(e.target);
-		var rgb = $target.data('rgb');
 		var hex = $target.data('hex');
+		var rgb = $target.data('rgb');
 		this.populateInputs(hex, rgb);		
 	}
 	
@@ -185,12 +179,25 @@ class ColorPickerInput {
 		return /^[0-9]{1,3}\s*,\s*[0-9]{1,3}\s*,\s*[0-9]{1,3}$/i.test(rgb);
 	}
 	
+	hexFix(str) {
+		var v, w;
+		v = parseInt(str, 16);	// in rrggbb
+		if (str.length == 3) {
+			// nybble colors - fix to hex colors
+			//  0x00000rgb              -> 0x000r0g0b
+			//  0x000r0g0b | 0x00r0g0b0 -> 0x00rrggbb
+			w = ((v & 0xF00) << 8) | ((v & 0x0F0) << 4) | (v & 0x00F);
+			v = w | (w << 4);
+		}
+		return v.toString(16).toUpperCase();
+	}
+	
 }
 	
 
 ColorPickerInput.DEFAULTS = {
 	name: '',
-	value: 'white',
+	value: '',
 	palette: [
 		'#BFEDD2',
 		'#FBEEB8',
@@ -230,12 +237,12 @@ ColorPickerInput.DEFAULTS = {
 				<canvas class="palette" width="300" height="150" ></canvas>
 				<div class="palette-form-group">
 					<label class="hexLabel" for="hex">HEX: </label>    
-					<input type="text" class="hex" pattern="#([0-9A-F]{3}){1,2}" autocomplete="off"></input>
+					<input type="text" name="hex" class="hex" pattern="#([0-9A-F]{3}){1,2}" autocomplete="off"></input>
 					<div class="color-preview"></div>
 				</div>
 				<div class="palette-form-group">
 					<label for="rgb">RGB: </label>
-					<input name="rgb" class="rgb" autocomplete="off" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
+					<input type="text" name="rgb" class="rgb" autocomplete="off" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
 				</div>
 				<div class="palette-toolbar">
 					<a class="clear-fields" href="javascript:void(0)"><svg width="24" height="24"><path stroke="#E03E2D" stroke-width="2" d="M21 3L3 21" fill-rule="evenodd"></path></svg></a>
