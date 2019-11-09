@@ -6,7 +6,8 @@
     	
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     	
-    	<link rel="stylesheet" href="/test/css/file-icons.css">
+		<link rel="stylesheet" href="/test/css/file-icons.css">
+		<link rel="stylesheet" href="/test/css/linkPicker.css">
     	<link rel="stylesheet" href="/dist/css/inputs.css">
     	
     </head>
@@ -16,8 +17,20 @@
 			
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-3">
 						
+						<h1>Link Input</h1>
+						<div class="form-group">
+							<div class="link-input" data-input="link" data-name="link-input-1"></div>
+						</div>
+						<br>
+
+						<h1>Link Input</h1>
+						<div class="form-group">
+							<div class="link-input" data-input="link" data-name="link-input-2" data-value='{"url":"http://google.com","text":"Google","targetBlank":false}'></div>
+						</div>
+						<br>
+
 						<h1>File Input</h1>
 						<div class="form-group">
 							<div class="file-input" data-input="file" data-name="file-input-1" data-value='{"id":"6515d706a768c1fc","name":"wild-west-image-gun-woman-62910-51600.jpg","type":"jpg","path":"data/assets/wild-west-image-gun-woman-62910-51600.jpg","basename":"wild-west-image-gun-woman-62910-51600","size":"19.33 KB"}'></div>
@@ -117,6 +130,7 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	
 		<script src="/test/mock/MediaLibrary.js"></script>
+		<script src="/test/js/linkPicker.js"></script>
 		<script src="/test/Test.js"></script>
 		<script src="/dist/js/inputs.js"></script>
 		

@@ -20,8 +20,11 @@ class Test {
             		break;
             	case 'align':
             		new Inputs.AlignInput(item);
-            		break;		
-            }
+					break;
+				case 'link':
+					new Inputs.LinkInput(item, { onOpen: this.linkOnOpen })
+					break;
+			}
 		}.bind(this));
 		
     }
@@ -89,6 +92,20 @@ class Test {
 		});
 		
 		mediaLibrary.open();
+	}
+
+	linkOnOpen(linkInput) {
+		var linkPicker = new LinkPicker.LinkPicker({
+			selectCallback: function(link) {
+				if (link.url)
+					linkInput.addLink(link);
+				else	
+					linkInput.removeLink();
+			},
+			link: linkInput.link ? linkInput.link : {}
+		});
+		
+		linkPicker.open();
 	}
 	
 }
