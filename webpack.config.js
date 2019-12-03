@@ -7,6 +7,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist/js'),
     filename: 'inputs.js',
     libraryTarget: 'var',
-    library: 'Inputs'
+    library: 'EnigmaInputs'
   }
 };

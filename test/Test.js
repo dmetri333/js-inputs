@@ -7,22 +7,22 @@ class Test {
 
             switch(item.dataset.input) {
             	case 'file':
-            		new Inputs.FileInput(item, { onOpen: this.fileOnOpen });
+            		new EnigmaInputs.FileInput(item, { onOpen: this.fileOnOpen });
             		break;
             	case 'image':
-            		new Inputs.ImageInput(item, { onOpen: this.imageOnOpen });
+            		new EnigmaInputs.ImageInput(item, { onOpen: this.imageOnOpen });
             		break;
             	case 'gallery':
-            		new Inputs.GalleryInput(item, { onOpen: this.galleryOnOpen });
+            		new EnigmaInputs.GalleryInput(item, { onOpen: this.galleryOnOpen });
             		break;
             	case 'color-picker':
-            		new Inputs.ColorPickerInput(item);
+            		new EnigmaInputs.ColorPickerInput(item);
             		break;
             	case 'align':
-            		new Inputs.AlignInput(item);
+            		new EnigmaInputs.AlignInput(item);
 					break;
 				case 'link':
-					new Inputs.LinkInput(item, { onOpen: this.linkOnOpen })
+					new EnigmaInputs.LinkInput(item, { onOpen: this.linkOnOpen })
 					break;
 			}
 		}.bind(this));

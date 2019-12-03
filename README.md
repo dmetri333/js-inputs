@@ -1,1 +1,1 @@
-# js-inputs
+# enigma-inputs
