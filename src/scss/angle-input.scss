@@ -4,14 +4,14 @@
   border-radius: 50%;
   height: 38px;
   width: 38px;
-  border: 1px solid #ccc;
+  border: 1px solid #ced4da;
   cursor: pointer;
   outline: none;
   margin-right: 5px;
 }
 
 .angle-input .angle-input-circle:focus {
-  border: 1px solid #0af;
+  border: 1px solid #80bdff;
   cursor: pointer;
 }
 
@@ -34,11 +34,11 @@
   height: 10px;
   border-radius: 50%;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #ced4da;
 }
 
 .angle-input .angle-input-circle:focus .angle-input-pivot::before {
-  border: 1px solid #0af;
+  border: 1px solid #80bdff;
 }
 
 .angle-input input {

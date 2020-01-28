@@ -1,24 +1,24 @@
 import Util from '@foragefox/page-builder-util';
 
 class ColorPickerInput {
-	
+
 	constructor(container, options) {
-		this.container = container;		
+		this.container = container;
 		this.$container = $(this.container);
 		this.options = $.extend(true, {}, ColorPickerInput.DEFAULTS, this.container.dataset, typeof options == 'object' && options);
-		
-		this.$container.append(Util.supplant(this.options.templates.input, {name: this.options.name}));
+
+		this.$container.append(Util.supplant(this.options.templates.input, { name: this.options.name }));
 		this.$container.append(Util.supplant(this.options.templates.popover));
-		
+
 		this.renderPopover();
 		this.bindEvents();
-		
+
 		if (this.options.value) {
 			this.$input.val(this.options.value);
 			this.$input.change();
 		}
 	}
-	
+
 	renderPopover() {
 		this.$input = this.$container.find('.color-input');
 		this.$popper = this.$container.find('.palette-popover');
@@ -26,16 +26,16 @@ class ColorPickerInput {
 		this.$palette = this.$container.find('.palette');
 		this.ctx = this.$palette[0].getContext('2d');
 		this.$hexInput = this.$container.find('.hex');
-		this.$rgbInput = this.$container.find('.rgb');		
+		this.$rgbInput = this.$container.find('.rgb');
 		this.$preview = this.$container.find('.color-preview');
 		this.$paletteToggle = this.$container.find('.palette-toggle');
 		this.$clear = this.$container.find('.clear-fields');
-		
-		new Popper(this.$input, this.$popper, { placement: 'bottom' } );
-		
+
+		new Popper(this.$input, this.$popper, { placement: this.options.placement });
+
 		this.renderMiniPalette();
 	}
-	
+
 	bindEvents() {
 		$(document).on('click', this.close.bind(this));
 		this.$input.on('focus', this.show.bind(this));
@@ -47,42 +47,42 @@ class ColorPickerInput {
 		this.$rgbInput.on('change', this.handleManualRgbInput.bind(this));
 		this.$input.on('change', this.handleManualHexInput.bind(this));
 	}
-	
+
 	close(e) {
 		var $target = $(e.target);
-		if ($target != this.$container && !$target.closest(this.$container).length){
+		if ($target != this.$container && !$target.closest(this.$container).length) {
 			this.$popper.hide();
 		}
 	}
-	
+
 	show() {
 		this.$popper.show();
 		this.renderPalette();
 	}
-	
+
 	clearFields() {
 		this.populateInputs(null, null);
 	}
-	
+
 	togglePalette() {
 		this.$palette.toggle();
 		this.$miniPalette.toggle();
 	}
-	
+
 	populateInputs(hex, rgb) {
 		this.$input.val(hex);
 		this.$hexInput.val(hex);
 		this.$rgbInput.val(rgb);
-		
+
 		this.$preview.css('background-color', (hex) ? hex : '');
 	}
-	
+
 	handleManualHexInput(e) {
 		var newHexVal = $(e.target).val()
 		if (!this.isHexColor(newHexVal)) {
 			return;
 		}
-		
+
 		var hex = newHexVal;
 		var rgb = this.hexToRgb(hex);
 		this.populateInputs(hex, rgb);
@@ -93,7 +93,7 @@ class ColorPickerInput {
 		if (!this.isRgb(rgb)) {
 			return;
 		}
-		
+
 		var hex = (this.rgbToHex(rgb)) ? this.rgbToHex(rgb) : hex;
 		this.populateInputs(hex, rgb);
 	}
@@ -102,25 +102,25 @@ class ColorPickerInput {
 		var $target = $(e.target);
 		var hex = $target.data('hex');
 		var rgb = $target.data('rgb');
-		this.populateInputs(hex, rgb);		
-	}
-	
-	handlePaletteSelect(e) {
-        var x = e.pageX - this.$palette.offset().left;
-        var y = e.pageY - this.$palette.offset().top;
-
-        var data = this.ctx.getImageData(x, y, 1, 1).data
-        
-        var hex = '#' + this.decToHex(data[0]) + this.decToHex(data[1]) + this.decToHex(data[2])        
-        var rgb = this.hexToRgb(hex);
-		
 		this.populateInputs(hex, rgb);
-    }
-	
+	}
+
+	handlePaletteSelect(e) {
+		var x = e.pageX - this.$palette.offset().left;
+		var y = e.pageY - this.$palette.offset().top;
+
+		var data = this.ctx.getImageData(x, y, 1, 1).data
+
+		var hex = '#' + this.decToHex(data[0]) + this.decToHex(data[1]) + this.decToHex(data[2])
+		var rgb = this.hexToRgb(hex);
+
+		this.populateInputs(hex, rgb);
+	}
+
 	renderMiniPalette() {
 		for (var hex of this.options.palette) {
 			var rgb = this.hexToRgb(hex);
-			
+
 			var paletteItem = $('<div class="palette-item"></div>')
 				.css('background-color', hex)
 				.data('hex', hex)
@@ -128,57 +128,57 @@ class ColorPickerInput {
 			this.$miniPalette.append(paletteItem);
 		}
 	}
-	
+
 	renderPalette() {
-        var gradient = this.ctx.createLinearGradient(0, 0, this.$palette.width(), 0);
+		var gradient = this.ctx.createLinearGradient(0, 0, this.$palette.width(), 0);
 
-        gradient.addColorStop(0,    "rgb(255,   0,   0)");
-        gradient.addColorStop(0.15, "rgb(255,   0, 255)");
-        gradient.addColorStop(0.33, "rgb(0,     0, 255)");
-        gradient.addColorStop(0.49, "rgb(0,   255, 255)");
-        gradient.addColorStop(0.67, "rgb(0,   255,   0)");
-        gradient.addColorStop(0.84, "rgb(255, 255,   0)");
-        gradient.addColorStop(1,    "rgb(255,   0,   0)");
-        
-        this.ctx.fillStyle = gradient
-        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+		gradient.addColorStop(0, "rgb(255,   0,   0)");
+		gradient.addColorStop(0.15, "rgb(255,   0, 255)");
+		gradient.addColorStop(0.33, "rgb(0,     0, 255)");
+		gradient.addColorStop(0.49, "rgb(0,   255, 255)");
+		gradient.addColorStop(0.67, "rgb(0,   255,   0)");
+		gradient.addColorStop(0.84, "rgb(255, 255,   0)");
+		gradient.addColorStop(1, "rgb(255,   0,   0)");
 
-        gradient = this.ctx.createLinearGradient(0, 0, 0, this.$palette.height());
-        gradient.addColorStop(0,   "rgba(255, 255, 255, 1)");
-        gradient.addColorStop(0.5, "rgba(255, 255, 255, 0)");
-        gradient.addColorStop(0.5, "rgba(0,     0,   0, 0)");
-        gradient.addColorStop(1,   "rgba(0,     0,   0, 1)");
-        
-        this.ctx.fillStyle = gradient;
-        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+		this.ctx.fillStyle = gradient
+		this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+		gradient = this.ctx.createLinearGradient(0, 0, 0, this.$palette.height());
+		gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+		gradient.addColorStop(0.5, "rgba(255, 255, 255, 0)");
+		gradient.addColorStop(0.5, "rgba(0,     0,   0, 0)");
+		gradient.addColorStop(1, "rgba(0,     0,   0, 1)");
+
+		this.ctx.fillStyle = gradient;
+		this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 	}
-	
+
 	hexToRgb(hex) {
 		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 		return result ? parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) : null;
 	}
-	
+
 	rgbToHex(rgbStr) {
 		var rgb = rgbStr.split(',')
-		if (rgb.length != 3 || rgb.filter(val => val < 0 || val > 255).length != 0 ) {
+		if (rgb.length != 3 || rgb.filter(val => val < 0 || val > 255).length != 0) {
 			return null
 		}
 		return '#' + this.decToHex(rgb[0]) + this.decToHex(rgb[1]) + this.decToHex(rgb[2])
 	}
-	
+
 	decToHex(dec) {
-		 var hex = parseInt(dec).toString(16);
-		 return hex.length == 1 ? '0' + hex : hex;
+		var hex = parseInt(dec).toString(16);
+		return hex.length == 1 ? '0' + hex : hex;
 	}
-	
+
 	isHexColor(hex) {
 		return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
 	}
-	
+
 	isRgb(rgb) {
 		return /^[0-9]{1,3}\s*,\s*[0-9]{1,3}\s*,\s*[0-9]{1,3}$/i.test(rgb);
 	}
-	
+
 	hexFix(str) {
 		var v, w;
 		v = parseInt(str, 16);	// in rrggbb
@@ -191,13 +191,14 @@ class ColorPickerInput {
 		}
 		return v.toString(16).toUpperCase();
 	}
-	
+
 }
-	
+
 
 ColorPickerInput.DEFAULTS = {
 	name: '',
 	value: '',
+	placement: 'bottom',
 	palette: [
 		'#BFEDD2',
 		'#FBEEB8',
