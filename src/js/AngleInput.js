@@ -13,7 +13,9 @@ class AngleInput {
             value: this.options.value
         }));
 
-        this.value = this.options.value;
+        this.value = parseInt(this.options.value);
+        this.dial = this.convertDialValue(this.value);
+
         this.input = this.$element.find('input');
         this.circle = this.$element.find('.angle-input-circle')[0];
         this.pivot = this.$element.find('.angle-input-pivot');
@@ -29,19 +31,38 @@ class AngleInput {
     }
 
     setValue() {
-        this.pivot.css('transform', "rotate(-" + this.value + "deg)");
+        this.pivot.css('transform', 'rotate(-' + this.dial + 'deg)');
+
         this.input.val(this.value);
+    }
+
+    convertValue(value) {
+        value -= 90;
+        if (value < 0) {
+            value += 360;
+        }
+        return value;
+    }
+
+    convertDialValue(value) {
+        value += 90;
+        if (value >= 360) {
+            value -= 360;
+        }
+        return value;
     }
 
     inputChanged() {
         this.value = this.normalize(this.input.val());
+        this.dial = this.convertDialValue(this.value);
         this.setValue();
     }
 
     updateWithEvent(event, done) {
         var vector = [event.x, event.y];
         var deg = this.angle(vector, this.circle);
-        this.value = this.normalize(deg);
+        this.dial = this.normalize(deg);
+        this.value = this.convertValue(this.dial);
         this.setValue();
     }
 

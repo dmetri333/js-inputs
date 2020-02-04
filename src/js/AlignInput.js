@@ -2,18 +2,18 @@ import Util from '@foragefox/page-builder-util';
 
 class AlignInput {
 
-	constructor(element, options) {            
+	constructor(element, options) {
 		this.element = element;
 		this.$element = $(element);
 		this.options = $.extend(true, {}, AlignInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
-		
-     
+
+
 		this.$element.html(Util.supplant(this.options.templates.body, {
 			name: this.options.name,
 			value: this.options.value,
 			values: this.options.values
-		}));	
-    }
+		}));
+	}
 }
 
 AlignInput.DEFAULTS = {

@@ -6,13 +6,13 @@ class LinkInput {
 		this.element = element;
 		this.$element = $(element);
 		this.options = $.extend(true, {}, LinkInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
-		
+
 		this.$element.html(Util.supplant(this.options.templates.body, { name: this.options.name }));
-		
+
 		this.initValue();
 		this.initEvents();
-    }
-    
+	}
+
 	initEvents() {
 		this.$element.on('click', '.link-input-add-btn', this.open.bind(this));
 		this.$element.on('click', '.link-input-edit-link', this.open.bind(this));
@@ -27,23 +27,23 @@ class LinkInput {
 		this.link = link;
 
 		this.$element.find('.link-input-preview').html(Util.supplant(this.options.templates.preview, { link: link }));
-		
+
 		this.$element.find('input').val(JSON.stringify(link));
-		
+
 		this.$element.find('.link-input-preview').show();
 		this.$element.find('.link-input-add').hide();
 	}
-	
+
 	removeLink() {
 		this.link = null;
-		
+
 		this.$element.find('input').val('');
 		this.$element.find('.link-input-preview').html('');
-		
+
 		this.$element.find('.link-input-preview').hide();
-		this.$element.find('.link-input-add').show();	
+		this.$element.find('.link-input-add').show();
 	}
-	
+
 	initValue() {
 		if (this.options.value) {
 			var link = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
@@ -56,7 +56,7 @@ class LinkInput {
 
 LinkInput.DEFAULTS = {
 	name: '',
-	onOpen: function() {},
+	onOpen: function () { },
 	templates: {
 		body: `
   			<input type="hidden" name="{{name}}" value="">
