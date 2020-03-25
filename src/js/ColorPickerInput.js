@@ -45,7 +45,7 @@ class ColorPickerInput {
 		this.$palette.on('click', this.handlePaletteSelect.bind(this));
 		this.$hexInput.on('change', this.handleManualHexInput.bind(this));
 		this.$rgbInput.on('change', this.handleManualRgbInput.bind(this));
-		this.$input.on('change', this.handleManualHexInput.bind(this));
+		this.$input.on('change', this.handleManualInput.bind(this));
 	}
 
 	close(e) {
@@ -70,20 +70,33 @@ class ColorPickerInput {
 	}
 
 	populateInputs(hex, rgb) {
-		this.$input.val(hex);
+		this.$input.val(rgb);
 		this.$hexInput.val(hex);
 		this.$rgbInput.val(rgb);
 
-		this.$preview.css('background-color', (hex) ? hex : '');
+		this.$preview.css('background-color', rgb ? rgb : '');
+	}
+
+
+	handleManualInput(e) {
+		let value = $(e.target).val()
+		if (this.isHexColor(value)) {
+			this.handleManualHexInput(e);
+		}
+
+		if (this.isRgb(value)) {
+			this.handleManualRgbInput(e);
+		}
+
+		return;
 	}
 
 	handleManualHexInput(e) {
-		var newHexVal = $(e.target).val()
-		if (!this.isHexColor(newHexVal)) {
+		var hex = $(e.target).val()
+		if (!this.isHexColor(hex)) {
 			return;
 		}
 
-		var hex = newHexVal;
 		var rgb = this.hexToRgb(hex);
 		this.populateInputs(hex, rgb);
 	}
@@ -94,7 +107,7 @@ class ColorPickerInput {
 			return;
 		}
 
-		var hex = (this.rgbToHex(rgb)) ? this.rgbToHex(rgb) : hex;
+		var hex = this.rgbToHex(rgb) ? this.rgbToHex(rgb) : hex;
 		this.populateInputs(hex, rgb);
 	}
 
@@ -132,22 +145,22 @@ class ColorPickerInput {
 	renderPalette() {
 		var gradient = this.ctx.createLinearGradient(0, 0, this.$palette.width(), 0);
 
-		gradient.addColorStop(0, "rgb(255,   0,   0)");
+		gradient.addColorStop(0,    "rgb(255,   0,   0)");
 		gradient.addColorStop(0.15, "rgb(255,   0, 255)");
 		gradient.addColorStop(0.33, "rgb(0,     0, 255)");
 		gradient.addColorStop(0.49, "rgb(0,   255, 255)");
 		gradient.addColorStop(0.67, "rgb(0,   255,   0)");
 		gradient.addColorStop(0.84, "rgb(255, 255,   0)");
-		gradient.addColorStop(1, "rgb(255,   0,   0)");
+		gradient.addColorStop(1,    "rgb(255,   0,   0)");
 
 		this.ctx.fillStyle = gradient
 		this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
 		gradient = this.ctx.createLinearGradient(0, 0, 0, this.$palette.height());
-		gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+		gradient.addColorStop(0,   "rgba(255, 255, 255, 1)");
 		gradient.addColorStop(0.5, "rgba(255, 255, 255, 0)");
 		gradient.addColorStop(0.5, "rgba(0,     0,   0, 0)");
-		gradient.addColorStop(1, "rgba(0,     0,   0, 1)");
+		gradient.addColorStop(1,   "rgba(0,     0,   0, 1)");
 
 		this.ctx.fillStyle = gradient;
 		this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -155,15 +168,27 @@ class ColorPickerInput {
 
 	hexToRgb(hex) {
 		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		return result ? parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) : null;
+		return result ? 'rgba(' + parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) + ', 1)' : null;
 	}
+    
+	rgbToHex(rgba) {
+        rgba = rgba.substr(5).split(")")[0].split(',');
+	  
+        let r = (+rgba[0]).toString(16),
+			g = (+rgba[1]).toString(16),
+			b = (+rgba[2]).toString(16),
+			a = Math.round(+rgba[3] * 255).toString(16);
+	  
+        if (r.length == 1)
+            r = "0" + r;
+        if (g.length == 1)
+            g = "0" + g;
+        if (b.length == 1)
+            b = "0" + b;
+        if (a.length == 1)
+            a = "0" + a;
 
-	rgbToHex(rgbStr) {
-		var rgb = rgbStr.split(',')
-		if (rgb.length != 3 || rgb.filter(val => val < 0 || val > 255).length != 0) {
-			return null
-		}
-		return '#' + this.decToHex(rgb[0]) + this.decToHex(rgb[1]) + this.decToHex(rgb[2])
+        return "#" + r + g + b;
 	}
 
 	decToHex(dec) {
@@ -176,7 +201,7 @@ class ColorPickerInput {
 	}
 
 	isRgb(rgb) {
-		return /^[0-9]{1,3}\s*,\s*[0-9]{1,3}\s*,\s*[0-9]{1,3}$/i.test(rgb);
+		return /rgba\([0-9]{1,3}\s*,\s*[0-9]{1,3}\s*,\s*[0-9]{1,3}\s*,\s*(1|0?\.\d+)\)/i.test(rgb);
 	}
 
 	hexFix(str) {
@@ -237,12 +262,12 @@ ColorPickerInput.DEFAULTS = {
 				<div class="mini-palette"></div>
 				<canvas class="palette" width="300" height="150" ></canvas>
 				<div class="palette-form-group">
-					<label class="hexLabel" for="hex">HEX: </label>    
+					<label class="hexLabel" for="hex">HEX:</label>    
 					<input type="text" name="hex" class="hex" pattern="#([0-9A-F]{3}){1,2}" autocomplete="off"></input>
 					<div class="color-preview"></div>
 				</div>
 				<div class="palette-form-group">
-					<label for="rgb">RGB: </label>
+					<label for="rgb">RGB:</label>
 					<input type="text" name="rgb" class="rgb" autocomplete="off" pattern="[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}"></input>	
 				</div>
 				<div class="palette-toolbar">
