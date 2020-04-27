@@ -74,7 +74,7 @@ GalleryInput.DEFAULTS = {
 				<div class="gallery-input-preview">
 					<div class="gallery-input-thumbs"></div>
 					<div class="gallery-input-add">
-						<a class="btn btn-sm btn-primary gallery-input-add-btn" href="javascript:void(0);">Add to gallery</a>
+						<a class="btn btn-sm btn-secondary gallery-input-add-btn" href="javascript:void(0);">Add to gallery</a>
 					</div>
 				</div>`,
 		thumb: `<div class="thumb" data-id="{{image.id}}">

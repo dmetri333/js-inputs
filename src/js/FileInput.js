@@ -73,7 +73,7 @@ FileInput.DEFAULTS = {
 			<div class="file-input-add" style="display: block;">
 				<p>
 					No file selected 
-					<a class="btn btn-sm btn-primary file-input-add-btn" href="javascript:void(0);">Add File</a>
+					<a class="btn btn-sm btn-secondary file-input-add-btn" href="javascript:void(0);">Add File</a>
 				</p>
 			</div>`,
 		preview: `<div class="file-input-icon">

@@ -62,7 +62,7 @@ LinkInput.DEFAULTS = {
   			<input type="hidden" name="{{name}}" value="">
 			<div class="link-input-preview" style="display: none;"></div>
 			<div class="link-input-add" style="display: block;">
-				<a class="btn btn-sm btn-primary link-input-add-btn" href="#">Select Link</a>
+				<a class="btn btn-sm btn-secondary link-input-add-btn" href="#">Select Link</a>
 			</div>`,
 		preview: `
 			<span class="link-input-url">{{link.url}}</span>

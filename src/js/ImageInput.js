@@ -66,7 +66,7 @@ ImageInput.DEFAULTS = {
 				<div class="image-input-add" style="display: block;">
 					<p>
 						No file selected 
-						<a class="btn btn-sm btn-primary image-input-add-btn" href="javascipt:void(0);">Add Image</a>
+						<a class="btn btn-sm btn-secondary image-input-add-btn" href="javascipt:void(0);">Add Image</a>
 					</p>
 				</div>`,
 		preview: `
