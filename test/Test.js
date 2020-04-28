@@ -2,6 +2,10 @@
 class Test {
 
 	constructor(element) {
+		this.initInputs(element);
+	}
+
+	initInputs(element) {
 
 		$(element).find('[data-input]').each(function (i, item) {
 
@@ -22,15 +26,23 @@ class Test {
 					new EnigmaInputs.AlignInput(item);
 					break;
 				case 'link':
-					new EnigmaInputs.LinkInput(item, { onOpen: this.linkOnOpen })
+					new EnigmaInputs.LinkInput(item, { onOpen: this.linkOnOpen });
 					break;
 				case 'angle':
-					new EnigmaInputs.AngleInput(item)
+					new EnigmaInputs.AngleInput(item);
 					break;
+				case 'repeater':
+					new EnigmaInputs.Repeater(item, {
+						onAdd: function(item) {
+							this.initInputs(item);
+						}.bind(this)
+					});
+					break;	
 			}
 		}.bind(this));
 
 	}
+
 
 	fileOnOpen(fileInput) {
 
