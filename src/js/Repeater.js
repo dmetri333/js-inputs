@@ -10,7 +10,7 @@ class Repeater {
 			addLabel: this.options.addLabel 
 		}));
 
-		this.template = this.element.find('[data-repeater-template]').remove();
+		this.template = this.buildTemplate();
 		this.items = this.element.find('.items');
 
 		this.bindEvents();
@@ -39,6 +39,23 @@ class Repeater {
 		item.remove();
 
 		this.options.onRemove(item);
+	}
+
+	buildTemplate() {
+		let template = this.element.find('[data-repeater-template]');
+		
+		template.find('input, select, textarea, [data-name]').each(function (i, item) {
+			if (item.hasAttribute('name')) {
+				item.setAttribute('name', this.options.name + '-' + item.getAttribute('name'));
+			} else if ('name' in item.dataset) {
+				item.dataset.name = this.options.name + '-' + item.dataset.name;
+			}
+		}.bind(this));
+
+		let finalTemplate = template.clone();
+
+		template.remove();
+		return finalTemplate;
 	}
 
 }
