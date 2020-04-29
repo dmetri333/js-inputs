@@ -10,7 +10,7 @@ class Repeater {
 			addLabel: this.options.addLabel 
 		}));
 
-		this.template = this.element.find('[data-repeater-template]').hide();
+		this.template = this.element.find('[data-repeater-template]').remove();
 		this.items = this.element.find('.items');
 
 		this.bindEvents();
