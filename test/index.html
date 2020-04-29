@@ -36,7 +36,7 @@
 								<div class="form-group">  
 									<label for="field-label">Field Label</label>                                  
 									<input type="text" class="form-control" name="field-label[]" placeholder="What can we help with?">
-								   </div>
+								</div>
 								<div class="form-group">
 									<label for="field-type">Field Type</label>
 									<select class="form-control field-type" name="field-type[]">
@@ -58,6 +58,31 @@
 								<div class="form-group">
                                     <label for="field-default">Link</label> 
 									<div class="link-input" data-input="link" data-name="link-input-1"></div>
+								</div>
+							 </div>
+							
+						  </div>
+					 </div>
+
+					 <h1>Repeater Input 2</h1>
+					<div class="form-group">
+						<label for="fields">Fields</label>
+						 
+						<div class="repeater-input" data-name="someform2" data-input="repeater" data-value='{"field-default[]":[1,2],"link-input[]":[{"url":"#container-a","text":"container-a","targetBlank":false},{"url":"#container-b","text":"container-b","targetBlank":false}]}'>
+							 
+							 <div data-repeater-template>
+								<button type="button" class="close" aria-label="Close" data-repeater-remove="">
+									  <span aria-hidden="true">&times;</span>
+								</button>
+							
+								 <div class="form-group">  
+									  <label for="field-default">Default Value</label>                                  
+									  <input type="text" class="form-control" name="field-default[]">
+								</div>
+
+								<div class="form-group">
+                                    <label for="field-default">Link</label> 
+									<div class="link-input" data-input="link" data-name="link-input[]"></div>
 								</div>
 							 </div>
 							

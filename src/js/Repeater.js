@@ -13,22 +13,43 @@ class Repeater {
 		this.template = this.buildTemplate();
 		this.items = this.element.find('.items');
 
+		this.populate();
 		this.bindEvents();
 	}
 
-
 	bindEvents() {
-		this.element.on('click', '[data-repeater-remove]', this.removeItem.bind(this));
-		this.element.on('click', '[data-repeater-add]', this.addItem.bind(this));
+		this.element.on('click', '[data-repeater-remove]', (event) => this.removeItem(event));
+		this.element.on('click', '[data-repeater-add]', () => this.addItem());
 	}
 
-	addItem() {
+	populate() {
+		let data = this.element.data('value');
+		if (data) {
+			let count = Object.values(data)[0].length;
+	
+			for (let i = 0; i < count; i++) {
+				let itemData = {};
+
+				$.each(data, function (key, value) {
+					itemData[this.options.name + '-' + key] = value[i];
+				}.bind(this));
+
+				this.addItem(itemData);
+			}
+		}
+	}
+
+	addItem(data) {
 		let html = Util.supplant(this.options.templates.item, { 
 			item: this.template.html()
 		});
 
 		let item = $(html).appendTo(this.items);
 
+		if (data) {
+			Util.formFromJSON(item, data);
+		}
+		
 		this.options.onAdd(item);
 	}
 
