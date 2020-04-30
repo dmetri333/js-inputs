@@ -29,6 +29,6 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@foragefox/page-builder-util": "^1.0.5"
+    "@foragefox/page-builder-util": "^1.0.7"
   }
 }
