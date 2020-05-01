@@ -12,6 +12,7 @@ class Repeater {
 
 		this.template = this.buildTemplate();
 		this.items = this.element.find('.items');
+		this.itemCount = 0;
 
 		this.populate();
 		this.bindEvents();
@@ -41,7 +42,7 @@ class Repeater {
 
 	addItem(data) {
 		let html = Util.supplant(this.options.templates.item, { 
-			item: this.template.html()
+			item: Util.supplant(this.template, { index: this.itemCount })
 		});
 
 		let item = $(html).appendTo(this.items);
@@ -51,6 +52,8 @@ class Repeater {
 		}
 		
 		this.options.onAdd(item);
+
+		this.itemCount++;
 	}
 
 	removeItem(event) {
@@ -73,10 +76,10 @@ class Repeater {
 			}
 		}.bind(this));
 
-		let finalTemplate = template.clone();
+		let html = template.html();
 
 		template.remove();
-		return finalTemplate;
+		return html;
 	}
 
 }
