@@ -3,13 +3,14 @@
   font-family: Arial, Tahoma, sans-serif;
   font-weight: 300;
   display: inline-block;
-  width: 24px;
-  height: 32px;
-  background: #018fef;
+  width: 32px;
+  height: 42px;
+  background: #00aeef;
   position: relative;
   border-radius: 2px;
   text-align: left;
   -webkit-font-smoothing: antialiased;
+  line-height: 1;
 }
 
 .file-icon::before {
@@ -41,7 +42,7 @@
   overflow: hidden;
 }
 
-/* fileicons */
+/* fileicons.sizes */
 .file-icon-xs {
   width: 12px;
   height: 16px;
@@ -95,8 +96,8 @@
 }
 
 .file-icon-xl {
-  width: 96px;
-  height: 128px;
+  width: 72px;
+  height: 96px;
   border-radius: 4px;
 }
 
@@ -106,6 +107,22 @@
 }
 
 .file-icon-xl::after {
+  font-size: 19px;
+  padding: 3px 5px;
+}
+
+.file-icon-xxl {
+  width: 96px;
+  height: 128px;
+  border-radius: 4px;
+}
+
+.file-icon-xxl::before {
+  border-bottom-left-radius: 4px;
+  border-width: 16px;
+}
+
+.file-icon-xxl::after {
   font-size: 24px;
   padding: 4px 10px;
 }
@@ -157,4 +174,28 @@
 .file-icon[data-type=gif],
 .file-icon[data-type=png] {
   background: #f4b400;
+}
+
+.file-icon[data-type=page] {
+  background: #5eb533;
+}
+
+.file-icon[data-type=anchor] {
+  background: #cccccc;
+}
+
+/* folder */
+.file-icon[data-type=folder] {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg viewBox='0 0 120 87' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3Efolder_solid%3C/title%3E%3Cg id='Assets' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Assets-/-Assets-App-/-00-Generic-/-00_AA_Generic_folder_blue' transform='translate(-40.000000, -30.000000)' fill='%2300ADEF'%3E%3Cpath d='M40,35.2393612 C40,32.3457419 42.3457419,30 45.2393612,30 L72.8733006,30 C74.5644306,30 76.1515764,30.8162701 77.1352159,32.1919059 L82.9545455,40.330332 L154.760639,40.330332 C157.654258,40.330332 160,42.6760739 160,45.5696932 L160,111.760639 C160,114.654258 157.654258,117 154.760639,117 L45.2393612,117 C42.3457419,117 40,114.654258 40,111.760639 L40,35.2393612 Z' id='folder_solid'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.file-icon[data-type=folder]::before {
+  content: none;
+}
+
+.file-icon[data-type=folder]::after {
+  content: none;
 }

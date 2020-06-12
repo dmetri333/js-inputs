@@ -77,7 +77,7 @@ FileInput.DEFAULTS = {
 				</p>
 			</div>`,
 		preview: `<div class="file-input-icon">
-					<div class="file-icon file-icon-lg" data-type="{{file.type}}"></div>
+					<div class="file-icon" data-type="{{file.type}}"></div>
 				</div>
 				<div class="file-input-details">
 					<div class="file-input-meta">
