@@ -1,14 +1,22 @@
 /* ========== Repeater ========== */
 .repeater-input .item {
-  border: 1px solid #ccc;
   margin-bottom: 10px;
   padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
 }
 
 .repeater-input [data-repeater-template] {
   display: none;
 }
 
-.repeater-input .close {
+.repeater-input .repeater-action {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
   color: #ccc;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+  text-decoration: none;
 }

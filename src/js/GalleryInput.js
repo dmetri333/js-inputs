@@ -1,4 +1,5 @@
 import Util from '@foragefox/page-builder-util';
+import Sortable from 'sortablejs';
 
 class GalleryInput {
 
@@ -9,6 +10,7 @@ class GalleryInput {
 		this.files = [];
 
 		this.$element.html(Util.supplant(this.options.templates.body, { name: this.options.name }));
+		this.thumbs = this.$element.find('.gallery-input-thumbs');
 
 		this.initValue();
 		this.initEvents();
@@ -17,6 +19,10 @@ class GalleryInput {
 	initEvents() {
 		this.$element.on('click', '.gallery-input-add-btn', this.open.bind(this));
 		this.$element.on('click', '.gallery-input-remove-link', this.removeImage.bind(this));
+		
+		return Sortable.create(this.thumbs[0], {
+			animation: 150
+		});
 	}
 
 	open() {
@@ -27,7 +33,7 @@ class GalleryInput {
 		var fileIds = this.files.map(function (item) { return item.id; });
 
 		if (!fileIds.includes(file.id)) {
-			this.$element.find('.gallery-input-thumbs').append(Util.supplant(this.options.templates.thumb, { image: file }));
+			this.thumbs.append(Util.supplant(this.options.templates.thumb, { image: file }));
 			this.files.push(file);
 		}
 

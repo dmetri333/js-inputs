@@ -1,4 +1,5 @@
 import Util from '@foragefox/page-builder-util';
+import Sortable from 'sortablejs';
 
 class Repeater {
 
@@ -21,6 +22,11 @@ class Repeater {
 	bindEvents() {
 		this.element.on('click', '[data-repeater-remove]', (event) => this.removeItem(event));
 		this.element.on('click', '[data-repeater-add]', () => this.addItem());
+
+		return Sortable.create(this.items[0], {
+			handle: '[data-repeater-move]',
+			animation: 150
+		});
 	}
 
 	populate() {

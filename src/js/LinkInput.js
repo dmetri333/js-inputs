@@ -62,14 +62,19 @@ LinkInput.DEFAULTS = {
   			<input type="hidden" name="{{name}}" value="">
 			<div class="link-input-preview" style="display: none;"></div>
 			<div class="link-input-add" style="display: block;">
-				<a class="btn btn-sm btn-secondary link-input-add-btn" href="#">Select Link</a>
+				<a class="btn btn-sm btn-secondary link-input-add-btn" href="javascript:void(0);">Select Link</a>
 			</div>`,
 		preview: `
-			<span class="link-input-url">{{link.url}}</span>
-			<span class="link-input-options">
-				<a class="link-input-edit-link" href="javascript:void(0);">Edit</a>&nbsp;&nbsp;					
+			<div class="link-input-url">
+				<div><strong>{{link.url}}</strong></div>
+				{{if (link.text != '')}}
+					<div><em>{{link.text}}</em></div>
+				{{/if}}
+			</div>
+			<div class="link-input-options">
+				<a class="link-input-edit-link" href="javascript:void(0);">Edit</a>&nbsp;&nbsp;
 				<a class="link-input-remove-link" href="javascript:void(0);">Remove</a>
-			</span>`
+			</div>`
 	}
 }
 

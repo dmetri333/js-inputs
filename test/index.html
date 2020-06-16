@@ -71,10 +71,14 @@
 						<div class="repeater-input" data-name="someform2" data-input="repeater" data-value='{"field-default[]":[1,2],"link-input[]":[{"url":"#container-a","text":"container-a","targetBlank":false},{"url":"#container-b","text":"container-b","targetBlank":false}]}'>
 							 
 							 <div data-repeater-template>
-								<button type="button" class="close" aria-label="Close" data-repeater-remove="">
+								<a class="repeater-action" aria-label="Close" data-repeater-remove="" href="javascript:void(0);">
 									  <span aria-hidden="true">&times;</span>
-								</button>
-							
+								</a>
+
+								<a class="repeater-action" aria-label="Move" data-repeater-move="" href="javascript:void(0);">
+									<span aria-hidden="true">M</span>
+								</a>
+
 								 <div class="form-group">  
 									  <label for="field-default">Default Value</label>                                  
 									  <input type="text" class="form-control" name="field-default[]">
