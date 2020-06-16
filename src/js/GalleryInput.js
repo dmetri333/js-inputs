@@ -17,11 +17,22 @@ class GalleryInput {
 	}
 
 	initEvents() {
-		this.$element.on('click', '.gallery-input-add-btn', this.open.bind(this));
-		this.$element.on('click', '.gallery-input-remove-link', this.removeImage.bind(this));
+		this.$element.on('click', '.gallery-input-add-btn', (event) => this.open());
+		this.$element.on('click', '.gallery-input-remove-link', (event) => this.removeImage(event));
 		
 		return Sortable.create(this.thumbs[0], {
-			animation: 150
+			animation: 150,
+			onUpdate: (event) => {
+				let files = [];
+
+				this.thumbs.find('.thumb').each(function(index, item) {
+					let thumb = $(item);
+					files.push({ id: thumb.data('id'), path: thumb.find('img').attr('src') });
+				});
+				
+				this.files = files;
+				this.$element.find('input').val(JSON.stringify(this.files));
+			}
 		});
 	}
 
@@ -84,9 +95,9 @@ GalleryInput.DEFAULTS = {
 					</div>
 				</div>`,
 		thumb: `<div class="thumb" data-id="{{image.id}}">
-			<img src="{{image.path}}" alt="" >
-			<div><a class="gallery-input-remove-link" href="javascript:void(0);">Remove</a></div>
-		</div>`
+					<img src="{{image.path}}" alt="" >
+					<div><a class="gallery-input-remove-link" href="javascript:void(0);">Remove</a></div>
+				</div>`
 	}
 }
 
