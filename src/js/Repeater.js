@@ -31,9 +31,10 @@ class Repeater {
 
 	populate() {
 		let data = this.element.data('value');
-		if (data) {
+		
+		if (data && data.constructor === Object && Object.entries(data).length !== 0) {
 			let count = Object.values(data)[0].length;
-	
+		
 			for (let i = 0; i < count; i++) {
 				let itemData = {};
 
