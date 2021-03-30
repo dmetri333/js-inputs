@@ -7,7 +7,7 @@ class ColorPickerInput {
 		this.$container = $(this.container);
 		this.options = $.extend(true, {}, ColorPickerInput.DEFAULTS, this.container.dataset, typeof options == 'object' && options);
 
-		this.$container.append(Util.supplant(this.options.templates.input, { name: this.options.name }));
+		this.$container.append(Util.supplant(this.options.templates.input, { name: this.options.name, size: this.options.fieldsize, placeholder: this.options.placeholder }));
 		this.$container.append(Util.supplant(this.options.templates.popover));
 
 		this.renderPopover();
@@ -223,6 +223,8 @@ class ColorPickerInput {
 ColorPickerInput.DEFAULTS = {
 	name: '',
 	value: '',
+	fieldsize: '',
+	placeholder: '',
 	placement: 'bottom',
 	palette: [
 		'#BFEDD2',
@@ -250,11 +252,11 @@ ColorPickerInput.DEFAULTS = {
 	],
 	templates: {
 		input: `
-			<div class="input-group">
+			<div class="input-group input-group-{{size}}">
 				<div class="input-group-prepend">
 					<span class="input-group-text color-preview"></span>
 				</div>
-				<input type="text" class="form-control color-input" name="{{name}}" autocomplete="off" />
+				<input type="text" class="form-control color-input" name="{{name}}" placeholder="{{placeholder}}" autocomplete="off" />
 			</div>
 			`,
 		popover: `

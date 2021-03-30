@@ -8,22 +8,22 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "webpack",
+    "css": "npm-run-all css-compile css-prefix css-compress",
+    "css-compile": "sass src/scss/inputs.scss dist/css/inputs.css",
+    "css-prefix": "postcss dist/css/inputs.css --use=autoprefixer --map=false  --output=dist/css/inputs.css",
+    "css-compress": "sass dist/css/inputs.css dist/css/inputs.min.css --style compressed",
+    "js": "webpack",
+    "watch-css": "watch 'npm run css' src/scss",
     "watch-js": "webpack --watch",
-    "lint-sass": "stylelint 'src/scss/*.scss'",
-    "compile-sass": "node-sass --include-path scss src/scss/inputs.scss dist/css/inputs.css",
-    "compress-css": "node-sass dist/css/inputs.css dist/css/inputs.min.css --output-style compressed",
-    "build-css": "npm-run-all lint-sass compile-sass compress-css",
-    "watch-css": "watch 'npm run build-css' src/scss",
-    "watch": "npm-run-all --parallel watch-js watch-css"
+    "watch": "npm-run-all --parallel watch-css watch-js"
   },
   "author": "Demetri Mihalakakos",
   "license": "ISC",
   "devDependencies": {
-    "node-sass": "^4.14.0",
+    "autoprefixer": "^10.2.5",
     "npm-run-all": "^4.1.5",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0",
+    "postcss-cli": "^8.3.1",
+    "sass": "^1.32.8",
     "watch": "^1.0.2",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"

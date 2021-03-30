@@ -22,6 +22,9 @@ class Test {
 				case 'color-picker':
 					new EnigmaInputs.ColorPickerInput(item);
 					break;
+				case 'box-style':
+					new EnigmaInputs.BoxStyleInput(item);
+					break;	
 				case 'align':
 					new EnigmaInputs.AlignInput(item);
 					break;
