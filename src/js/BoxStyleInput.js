@@ -11,6 +11,7 @@ class BoxStyleInput {
 		this.$container.append(Util.supplant(this.options.templates.input, { name: this.options.name }));
 		this.input = this.$container.find('input')
 
+		this.colorPicker;
 		this.currentProperty = '';
 		this.data = {};
 
@@ -25,9 +26,22 @@ class BoxStyleInput {
 	}
 
 	bindEvents() {
+		$(document).on('click', (event) => this.hide(event));
 		this.$container.on('click', '.close', () => this.close());
 		this.$container.on('click', '[data-prop]', (event) => this.show(event));
 		this.$container.on('click', '.save', () => this.save());
+		
+	}
+
+	hide(event) {
+		if (this.colorPicker && this.colorPicker.open == true)
+			return
+
+		let target = $(event.target);
+		if (target != this.$container && !target.closest(this.$container).length) {
+			this.close();
+		}
+		
 	}
 
 	close() {
@@ -62,8 +76,9 @@ class BoxStyleInput {
 		Util.formFromJSON(this.popperEl.find('form'), this.data[this.currentProperty]);
 
 		if (type == 'border') {
-			new ColorPickerInput(this.popperEl.find('[data-input]')[0]);
+			this.colorPicker = new ColorPickerInput(this.popperEl.find('[data-input]')[0]);
 		}
+
 	}
 
 	save() {
@@ -156,7 +171,7 @@ BoxStyleInput.DEFAULTS = {
 						<div class="input-group input-group-sm">
 							<input type="text" class="form-control" name="size" value="" placeholder="##px" />
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary save" type="button">Save</button>
+								<button class="btn btn-outline-secondary save" type="button">Set</button>
 							</div>
 						</div>
 					</form>
@@ -188,7 +203,7 @@ BoxStyleInput.DEFAULTS = {
 							</select>
 						</div>
 						<div>
-							<button class="btn btn-outline-secondary btn-sm save" type="button">Save</button>
+							<button class="btn btn-outline-secondary btn-sm save" type="button">Set</button>
 						</div>
 					</form>	
 				</div>
@@ -203,7 +218,7 @@ BoxStyleInput.DEFAULTS = {
 						<div class="input-group input-group-sm">
 							<input type="text" class="form-control" name="size" placeholder="##px" />
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary save" type="button">Save</button>
+								<button class="btn btn-outline-secondary save" type="button">Set</button>
 							</div>
 						</div>
 					</form>

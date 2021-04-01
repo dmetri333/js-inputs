@@ -10,6 +10,8 @@ class ColorPickerInput {
 		this.$container.append(Util.supplant(this.options.templates.input, { name: this.options.name, size: this.options.fieldsize, placeholder: this.options.placeholder }));
 		this.$container.append(Util.supplant(this.options.templates.popover));
 
+		this.open = false;
+
 		this.renderPopover();
 		this.bindEvents();
 
@@ -51,11 +53,13 @@ class ColorPickerInput {
 	close(e) {
 		var $target = $(e.target);
 		if ($target != this.$container && !$target.closest(this.$container).length) {
+			this.open = false;
 			this.$popper.hide();
 		}
 	}
 
 	show() {
+		this.open = true;
 		this.$popper.show();
 		this.renderPalette();
 	}

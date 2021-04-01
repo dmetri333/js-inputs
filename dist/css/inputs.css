@@ -366,6 +366,8 @@
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
+  color: #333;
+  text-decoration: none;
 }
 .box-style-input .prop:empty {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMTkgMTNINXYtMmgxNHYyeiIvPjwvc3ZnPg==");
