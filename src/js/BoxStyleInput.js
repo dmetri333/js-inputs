@@ -26,13 +26,12 @@ class BoxStyleInput {
 	}
 
 	bindEvents() {
-		$(document).on('click', (event) => this.hide(event));
 		this.$container.on('click', '.close', () => this.close());
 		this.$container.on('click', '[data-prop]', (event) => this.show(event));
 		this.$container.on('click', '.save', () => this.save());
-		
 	}
 
+	/*
 	hide(event) {
 		if (this.colorPicker && this.colorPicker.open == true)
 			return
@@ -43,6 +42,7 @@ class BoxStyleInput {
 		}
 		
 	}
+	*/
 
 	close() {
 		if (this.popper) {
@@ -105,6 +105,7 @@ class BoxStyleInput {
 		}
 	}
 
+	/*
 	normalizeData(data) {
 		// move padding and margin out of sub input
 		for (const property in data) {
@@ -123,7 +124,7 @@ class BoxStyleInput {
 			}
 		}
 	}
-
+	*/
 }
 
 
