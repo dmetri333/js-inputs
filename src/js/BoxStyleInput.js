@@ -1,4 +1,5 @@
 import Util from '@foragefox/page-builder-util';
+import ColorPickerInput from './ColorPickerInput';
 
 class BoxStyleInput {
 
@@ -19,6 +20,8 @@ class BoxStyleInput {
 			this.input.val(this.options.value);
 			this.data = JSON.parse(this.options.value);
 		}
+
+		this.setLabels();
 	}
 
 	bindEvents() {
@@ -59,20 +62,51 @@ class BoxStyleInput {
 		Util.formFromJSON(this.popperEl.find('form'), this.data[this.currentProperty]);
 
 		if (type == 'border') {
-			new EnigmaInputs.ColorPickerInput(this.popperEl.find('[data-input]')[0]);
+			new ColorPickerInput(this.popperEl.find('[data-input]')[0]);
 		}
 	}
 
 	save() {
+		let label = this.container.querySelector('[data-prop=' + this.currentProperty + ']');
 		let meta = Util.formToJSON(this.popperEl.find('form'));
+
 		if (meta.size == '') {
 			delete this.data[this.currentProperty];
 		} else {
-			this.data[this.currentProperty] = meta;
+			this.data[this.currentProperty] = meta;	
 		}
-
+		
+		label.innerText = meta.size;
 		this.input.val(JSON.stringify(this.data));
 		this.close();
+	}
+
+	setLabels() {
+		for (const property in data) {
+			let label = this.container.querySelector('[data-prop=' + property + ']');
+			if (label && data[property].size != '') {
+				label.innerText = data[property].size;
+			}
+		}
+	}
+
+	normalizeData(data) {
+		// move padding and margin out of sub input
+		for (const property in data) {
+			if (['mt','mr','mb','ml','pt','pr','pb','pl'].includes(property)) {
+				data[property] = data[property].size;
+			}
+		}
+
+		return data;
+	}
+
+	unnormalizeData(data) {
+		for (const property in data) {
+			if (['mt','mr','mb','ml','pt','pr','pb','pl'].includes(property)) {
+				data[property] = { size: data[property] };
+			}
+		}
 	}
 
 }
@@ -87,24 +121,24 @@ BoxStyleInput.DEFAULTS = {
 			<input type="hidden" name="{{name}}" value="">
 			<div class="box-style-input-margin">
 				<span class="box-style-input-label">margin</span>
-				<a class="prop-h prop-t" data-type="margin" data-prop="mt"></a>
-				<a class="prop-v prop-r" data-type="margin" data-prop="mr"></a>
-				<a class="prop-h prop-b" data-type="margin" data-prop="mb"></a>
-				<a class="prop-v prop-l" data-type="margin" data-prop="ml"></a>
+				<a class="prop prop-t" data-type="margin" data-prop="mt"></a>
+				<a class="prop prop-r" data-type="margin" data-prop="mr"></a>
+				<a class="prop prop-b" data-type="margin" data-prop="mb"></a>
+				<a class="prop prop-l" data-type="margin" data-prop="ml"></a>
 				
 				<div class="box-style-input-border">
 					<span class="box-style-input-label">border</span>
-					<a class="prop-h prop-t" data-type="border" data-prop="bt"></a>
-					<a class="prop-v prop-r" data-type="border" data-prop="br"></a>
-					<a class="prop-h prop-b" data-type="border" data-prop="bb"></a>
-					<a class="prop-v prop-l" data-type="border" data-prop="bl"></a>
+					<a class="prop prop-t" data-type="border" data-prop="bt"></a>
+					<a class="prop prop-r" data-type="border" data-prop="br"></a>
+					<a class="prop prop-b" data-type="border" data-prop="bb"></a>
+					<a class="prop prop-l" data-type="border" data-prop="bl"></a>
 
 					<div class="box-style-input-padding">
 						<span class="box-style-input-label">padding</span>
-						<a class="prop-h prop-t" data-type="padding" data-prop="pt"></a>
-						<a class="prop-v prop-r" data-type="padding" data-prop="pr"></a>
-						<a class="prop-h prop-b" data-type="padding" data-prop="pb"></a>
-						<a class="prop-v prop-l" data-type="padding" data-prop="pl"></a>
+						<a class="prop prop-t" data-type="padding" data-prop="pt"></a>
+						<a class="prop prop-r" data-type="padding" data-prop="pr"></a>
+						<a class="prop prop-b" data-type="padding" data-prop="pb"></a>
+						<a class="prop prop-l" data-type="padding" data-prop="pl"></a>
 
 						<div class="box-style-input-div"></div>
 					</div>
