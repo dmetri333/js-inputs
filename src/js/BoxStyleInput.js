@@ -82,10 +82,10 @@ class BoxStyleInput {
 	}
 
 	setLabels() {
-		for (const property in data) {
+		for (const property in this.data) {
 			let label = this.container.querySelector('[data-prop=' + property + ']');
-			if (label && data[property].size != '') {
-				label.innerText = data[property].size;
+			if (label && this.data[property].size != '') {
+				label.innerText = this.data[property].size;
 			}
 		}
 	}
