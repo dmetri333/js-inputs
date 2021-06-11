@@ -73,7 +73,8 @@ class BoxStyleInput {
 
 		this.popper = new Popper(target, this.popperEl, { placement: this.options.placement });
 	
-		Util.formFromJSON(this.popperEl.find('form'), this.data[this.currentProperty]);
+		if (this.data[this.currentProperty])
+			Util.formFromJSON(this.popperEl.find('form'), this.data[this.currentProperty]);
 
 		if (type == 'border') {
 			this.colorPicker = new ColorPickerInput(this.popperEl.find('[data-input]')[0]);
