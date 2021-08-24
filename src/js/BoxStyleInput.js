@@ -1,15 +1,17 @@
-import Util from '@foragefox/page-builder-util';
+import __ from '@foragefox/doubledash';
 import ColorPickerInput from './ColorPickerInput';
 
 class BoxStyleInput {
 
-	constructor(container, options) {
-		this.container = container;
-		this.$container = $(this.container);
-		this.options = $.extend(true, {}, BoxStyleInput.DEFAULTS, this.container.dataset, typeof options == 'object' && options);
+	constructor(element, options) {
+		this.element = element;
+		this.options = __.lang.extend(true, BoxStyleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+       
+		__.dom.append(__.template.supplant(this.options.templates.input, {
+			name: this.options.name
+		}), this.element);
 
-		this.$container.append(Util.supplant(this.options.templates.input, { name: this.options.name }));
-		this.input = this.$container.find('input')
+		this.input = __.dom.findOne('input', this.element);
 
 		this.colorPicker;
 		this.currentProperty = '';
@@ -18,7 +20,7 @@ class BoxStyleInput {
 		this.bindEvents();
 
 		if (this.options.value) {
-			this.input.val(this.options.value);
+			this.input.value = this.options.value;
 			this.data = JSON.parse(this.options.value);
 		}
 
@@ -26,23 +28,10 @@ class BoxStyleInput {
 	}
 
 	bindEvents() {
-		this.$container.on('click', '.close', () => this.close());
-		this.$container.on('click', '[data-prop]', (event) => this.show(event));
-		this.$container.on('click', '.save', () => this.save());
+		__.event.on(this.element, 'click', '.close', () => this.close());
+		__.event.on(this.element, 'click', '[data-prop]', (event) => this.show(event));
+		__.event.on(this.element, 'click', '.save', () => this.save());
 	}
-
-	/*
-	hide(event) {
-		if (this.colorPicker && this.colorPicker.open == true)
-			return
-
-		let target = $(event.target);
-		if (target != this.$container && !target.closest(this.$container).length) {
-			this.close();
-		}
-		
-	}
-	*/
 
 	close() {
 		if (this.popper) {
@@ -68,23 +57,23 @@ class BoxStyleInput {
 
 		this.currentProperty = target.dataset.prop;
 		let type = target.dataset.type;
-		
-		this.popperEl = $(Util.supplant(this.options.templates.popovers[type])).appendTo(this.$container);
+
+		this.popperEl = __.dom.append(this.options.templates.popovers[type].trim(), this.element);
 
 		this.popper = new Popper(target, this.popperEl, { placement: this.options.placement });
 	
 		if (this.data[this.currentProperty])
-			Util.formFromJSON(this.popperEl.find('form'), this.data[this.currentProperty]);
+			__.form.populateForm(__.dom.findOne('form', this.popperEl), this.data[this.currentProperty]);
 
 		if (type == 'border') {
-			this.colorPicker = new ColorPickerInput(this.popperEl.find('[data-input]')[0]);
+			this.colorPicker = new ColorPickerInput(__.dom.findOne('[data-input]', this.popperEl));
 		}
 
 	}
 
 	save() {
-		let label = this.container.querySelector('[data-prop=' + this.currentProperty + ']');
-		let meta = Util.formToJSON(this.popperEl.find('form'));
+		let label = __.dom.findOne('[data-prop=' + this.currentProperty + ']', this.element);
+		let meta = __.form.parseForm(__.dom.findOne('form', this.popperEl));
 
 		if (meta.size == '') {
 			delete this.data[this.currentProperty];
@@ -93,39 +82,19 @@ class BoxStyleInput {
 		}
 		
 		label.innerText = meta.size;
-		this.input.val(JSON.stringify(this.data));
+		this.input.value = JSON.stringify(this.data);
 		this.close();
 	}
 
 	setLabels() {
 		for (const property in this.data) {
-			let label = this.container.querySelector('[data-prop=' + property + ']');
+			let label = __.dom.findOne('[data-prop=' + property + ']', this.element);
 			if (label && this.data[property].size != '') {
 				label.innerText = this.data[property].size;
 			}
 		}
 	}
 
-	/*
-	normalizeData(data) {
-		// move padding and margin out of sub input
-		for (const property in data) {
-			if (['mt','mr','mb','ml','pt','pr','pb','pl'].includes(property)) {
-				data[property] = data[property].size;
-			}
-		}
-
-		return data;
-	}
-
-	unnormalizeData(data) {
-		for (const property in data) {
-			if (['mt','mr','mb','ml','pt','pr','pb','pl'].includes(property)) {
-				data[property] = { size: data[property] };
-			}
-		}
-	}
-	*/
 }
 
 

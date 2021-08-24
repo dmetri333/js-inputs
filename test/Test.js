@@ -7,42 +7,43 @@ class Test {
 
 	initInputs(element) {
 
-		$(element).find('[data-input]').each(function (i, item) {
+		let inputs = element.querySelectorAll('[data-input]');
 
-			switch (item.dataset.input) {
+		for (let i = 0; i < inputs.length; i++) {
+			switch (inputs[i].dataset.input) {
 				case 'file':
-					new EnigmaInputs.FileInput(item, { onOpen: this.fileOnOpen });
+					new EnigmaInputs.FileInput(inputs[i], { onOpen: this.fileOnOpen });
 					break;
 				case 'image':
-					new EnigmaInputs.ImageInput(item, { onOpen: this.imageOnOpen });
+					new EnigmaInputs.ImageInput(inputs[i], { onOpen: this.imageOnOpen });
 					break;
 				case 'gallery':
-					new EnigmaInputs.GalleryInput(item, { onOpen: this.galleryOnOpen });
+					new EnigmaInputs.GalleryInput(inputs[i], { onOpen: this.galleryOnOpen });
 					break;
 				case 'color-picker':
-					new EnigmaInputs.ColorPickerInput(item);
+					new EnigmaInputs.ColorPickerInput(inputs[i]);
 					break;
 				case 'box-style':
-					new EnigmaInputs.BoxStyleInput(item);
+					new EnigmaInputs.BoxStyleInput(inputs[i]);
 					break;	
 				case 'align':
-					new EnigmaInputs.AlignInput(item);
+					new EnigmaInputs.AlignInput(inputs[i]);
 					break;
 				case 'link':
-					new EnigmaInputs.LinkInput(item, { onOpen: this.linkOnOpen });
+					new EnigmaInputs.LinkInput(inputs[i], { onOpen: this.linkOnOpen });
 					break;
 				case 'angle':
-					new EnigmaInputs.AngleInput(item);
+					new EnigmaInputs.AngleInput(inputs[i]);
 					break;
 				case 'repeater':
-					new EnigmaInputs.Repeater(item, {
+					new EnigmaInputs.Repeater(inputs[i], {
 						onAdd: function(item) {
 							this.initInputs(item);
 						}.bind(this)
 					});
 					break;	
 			}
-		}.bind(this));
+		}
 
 	}
 

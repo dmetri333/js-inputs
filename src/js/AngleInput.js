@@ -1,24 +1,23 @@
-import Util from '@foragefox/page-builder-util';
+import __ from '@foragefox/doubledash';
 
 class AngleInput {
 
     constructor(element, options) {
         this.element = element;
-        this.$element = $(element);
-        this.options = $.extend(true, {}, AngleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+        this.options = __.lang.extend(true, AngleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
         this.body = document.body;
 
-        this.$element.html(Util.supplant(this.options.templates.body, {
+        this.element.innerHTML = __.template.supplant(this.options.templates.body, {
             name: this.options.name,
             value: this.options.value
-        }));
+		});
 
         this.value = parseInt(this.options.value);
         this.dial = this.convertDialValue(this.value);
 
-        this.input = this.$element.find('input');
-        this.circle = this.$element.find('.angle-input-circle')[0];
-        this.pivot = this.$element.find('.angle-input-pivot');
+        this.input = __.dom.findOne('input', this.element);
+        this.circle = __.dom.findOne('.angle-input-circle', this.element);
+        this.pivot = __.dom.findOne('.angle-input-pivot', this.element);
 
         this.accessible(this.circle);
         this.setValue();
@@ -26,14 +25,13 @@ class AngleInput {
     }
 
     bindEvents() {
-        this.circle.addEventListener('mousedown', this.beginTracking.bind(this), false);
-        this.input.on('keyup', this.inputChanged.bind(this));
+        this.circle.addEventListener('mousedown', (event) => this.beginTracking(event), false);
+        this.input.addEventListener('keyup', (event) => this.inputChanged(event), false);
     }
 
     setValue() {
-        this.pivot.css('transform', 'rotate(-' + this.dial + 'deg)');
-
-        this.input.val(this.value);
+        this.pivot.style.transform = 'rotate(-' + this.dial + 'deg)';
+        this.input.value = this.value;
     }
 
     convertValue(value) {
@@ -53,7 +51,7 @@ class AngleInput {
     }
 
     inputChanged() {
-        this.value = this.normalize(this.input.val());
+        this.value = this.normalize(this.input.value);
         this.dial = this.convertDialValue(this.value);
         this.setValue();
     }
@@ -66,21 +64,22 @@ class AngleInput {
         this.setValue();
     }
 
-    beginTracking(e) {
+    beginTracking(event) {
+        
         var that = this;
 
-        function endTracking(e) {
-            that.updateWithEvent(e, true);
+        function endTracking(event) {
+            that.updateWithEvent(event, true);
             that.body.removeEventListener('mousemove', duringTracking, false);
             that.body.removeEventListener('mouseup', endTracking, false);
         }
 
-        function duringTracking(e) {
-            that.updateWithEvent(e);
+        function duringTracking(event) {
+            that.updateWithEvent(event);
         }
 
-        that.body.addEventListener('mousemove', duringTracking, false);
-        that.body.addEventListener('mouseup', endTracking, false);
+        this.body.addEventListener('mousemove', duringTracking, false);
+        this.body.addEventListener('mouseup', endTracking, false);
     }
 
     normalize(degree) {

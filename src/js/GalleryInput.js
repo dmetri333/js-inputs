@@ -1,37 +1,41 @@
-import Util from '@foragefox/page-builder-util';
+import __ from '@foragefox/doubledash';
 import Sortable from 'sortablejs';
 
 class GalleryInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.$element = $(element);
-		this.options = $.extend(true, {}, GalleryInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, GalleryInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+
 		this.files = [];
 
-		this.$element.html(Util.supplant(this.options.templates.body, { name: this.options.name }));
-		this.thumbs = this.$element.find('.gallery-input-thumbs');
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
+			name: this.options.name
+		});
+
+		this.input = __.dom.findOne('input', this.element);
+		this.thumbs = __.dom.findOne('.gallery-input-thumbs', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		this.$element.on('click', '.gallery-input-add-btn', (event) => this.open());
-		this.$element.on('click', '.gallery-input-remove-link', (event) => this.removeImage(event));
+		__.event.on(this.element, 'click', '.gallery-input-add-btn', () => this.open());
+		__.event.on(this.element, 'click', '.gallery-input-remove-link', (event) => this.removeImage(event));
 		
-		return Sortable.create(this.thumbs[0], {
+		Sortable.create(this.thumbs, {
 			animation: 150,
 			onUpdate: (event) => {
 				let files = [];
 
-				this.thumbs.find('.thumb').each(function(index, item) {
-					let thumb = $(item);
-					files.push({ id: thumb.data('id'), path: thumb.find('img').attr('src') });
-				});
+				let thumbs = __.dom.find('.thumb', this.thumbs);
+				for (let i = 0; i < thumbs.length; i++) {
+					files.push({ id: thumbs[i].dataset.id, path: __.dom.findOne('img', thumbs[i]).getAttribute('src') });
+				};
 				
 				this.files = files;
-				this.$element.find('input').val(JSON.stringify(this.files));
+				this.input.value = JSON.stringify(this.files);
 			}
 		});
 	}
@@ -41,40 +45,40 @@ class GalleryInput {
 	}
 
 	addFile(file) {
-		var fileIds = this.files.map(function (item) { return item.id; });
+		let fileIds = this.files.map(function (item) { return item.id; });
 
 		if (!fileIds.includes(file.id)) {
-			this.thumbs.append(Util.supplant(this.options.templates.thumb, { image: file }));
+			__.dom.append(__.template.supplant(this.options.templates.thumb, { image: file }), this.thumbs);
 			this.files.push(file);
 		}
 
-		this.$element.find('input').val(JSON.stringify(this.files));
+		this.input.value = JSON.stringify(this.files);
 	}
 
-
 	removeImage(event) {
-		var target = event.currentTarget;
+		let target = event.currentTarget;
 
 		//remove thumb
-		var thumbnail = target.closest('.thumb');
-		thumbnail.remove();
+		let thumbnail = __.dom.closest(target, '.thumb');
+		let id = thumbnail.dataset.id;
+
+		__.dom.remove(thumbnail);
 
 		// remove from files array
-		var id = $(thumbnail).attr('data-id');
-		for (var i = 0; i < this.files.length; i++) {
+		for (let i = 0; i < this.files.length; i++) {
 			if (id == this.files[i].id) {
 				this.files.splice(i, 1);
 			}
 		}
 
 		// update input field
-		this.$element.find('input').val(JSON.stringify(this.files));
+		this.input.value = JSON.stringify(this.files);
 	}
 
 	initValue() {
 		if (this.options.value) {
-			var files = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
-			for (var i = 0; i < files.length; i++) {
+			let files = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
+			for (let i = 0; i < files.length; i++) {
 				this.addFile(files[i]);
 			}
 		}

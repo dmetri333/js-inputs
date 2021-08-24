@@ -1,22 +1,27 @@
-import Util from '@foragefox/page-builder-util';
+import __ from '@foragefox/doubledash';
 
 class ImageInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.$element = $(element);
-		this.options = $.extend(true, {}, ImageInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, ImageInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		this.$element.html(Util.supplant(this.options.templates.body, { name: this.options.name }));
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
+			name: this.options.name
+		});
+
+		this.input = __.dom.findOne('input', this.element);
+		this.preview = __.dom.findOne('.image-input-preview', this.element);
+		this.add = __.dom.findOne('.image-input-add', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		this.$element.on('click', '.image-input-add-btn', this.open.bind(this));
-		this.$element.on('click', '.image-input-edit-link', this.open.bind(this));
-		this.$element.on('click', '.image-input-remove-link', this.removeImage.bind(this));
+		__.event.on(this.element, 'click', '.image-input-add-btn', () => this.open());
+		__.event.on(this.element, 'click', '.image-input-edit-link', () => this.open());
+		__.event.on(this.element, 'click', '.image-input-remove-link', () => this.removeImage());
 	}
 
 	open() {
@@ -26,28 +31,27 @@ class ImageInput {
 	addFile(file) {
 		this.file = file;
 
-		this.$element.find('.image-input-preview').html(Util.supplant(this.options.templates.preview, { image: file }));
-		this.$element.find('input').val(JSON.stringify(file));
+		this.preview.innerHTML = __.template.supplant(this.options.templates.preview, { image: file });
+		this.input.value = JSON.stringify(file);
 
-		this.$element.find('.image-input-preview').show();
-		this.$element.find('.image-input-add').hide();
-
+		__.dom.show(this.preview);
+		__.dom.hide(this.add);
 	}
 
-	removeImage(event) {
+	removeImage() {
 		this.file = null;
 
-		this.$element.find('input').val('');
-		this.$element.find('img').attr('src', '')
+		this.input.value = '';
+		this.preview.innerHTML = '';
 
-		this.$element.find('.image-input-preview').hide();
-		this.$element.find('.image-input-add').show();
+		__.dom.hide(this.preview);
+		__.dom.show(this.add);
 	}
 
 	initValue() {
 
 		if (this.options.value) {
-			var file = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
+			var file = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
 			this.file = file;
 			this.addFile(file);
 		}

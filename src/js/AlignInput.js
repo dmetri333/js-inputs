@@ -1,18 +1,17 @@
-import Util from '@foragefox/page-builder-util';
+import __ from '@foragefox/doubledash';
 
 class AlignInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.$element = $(element);
-		this.options = $.extend(true, {}, AlignInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, AlignInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-
-		this.$element.html(Util.supplant(this.options.templates.body, {
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
 			name: this.options.name,
 			value: this.options.value,
 			values: this.options.values
-		}));
+		});
+
 	}
 }
 
@@ -43,10 +42,10 @@ AlignInput.DEFAULTS = {
 				<div class="align-input-vline bottom-right"></div>
 				{{for (var key in values)}}
 					<label class="align-input-control {{key}}">
-						<input name="{{name}}" value="{{values[key]}}" type="radio" {{if (values[key] == value)}}checked{{/if}}/>
+						<input name="{{name}}" value="{{values[key]}}" type="radio" {{if (values[key] == value)}}checked{{endif}}/>
 						<span class="a-indicator"></span>
 					</label>
-				{{/for}}
+				{{endfor}}
 			</div>`
 	}
 }

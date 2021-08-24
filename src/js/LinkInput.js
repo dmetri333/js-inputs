@@ -1,22 +1,27 @@
-import Util from '@foragefox/page-builder-util';
+import __ from '@foragefox/doubledash';
 
 class LinkInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.$element = $(element);
-		this.options = $.extend(true, {}, LinkInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, LinkInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		this.$element.html(Util.supplant(this.options.templates.body, { name: this.options.name }));
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
+			name: this.options.name
+		});
+
+		this.input = __.dom.findOne('input', this.element);
+		this.preview = __.dom.findOne('.link-input-preview', this.element);
+		this.add = __.dom.findOne('.link-input-add', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		this.$element.on('click', '.link-input-add-btn', this.open.bind(this));
-		this.$element.on('click', '.link-input-edit-link', this.open.bind(this));
-		this.$element.on('click', '.link-input-remove-link', this.removeLink.bind(this));
+		__.event.on(this.element, 'click', '.link-input-add-btn', () => this.open());
+		__.event.on(this.element, 'click', '.link-input-edit-link', () => this.open());
+		__.event.on(this.element, 'click', '.link-input-remove-link', () => this.removeLink());
 	}
 
 	open() {
@@ -26,27 +31,27 @@ class LinkInput {
 	addLink(link) {
 		this.link = link;
 
-		this.$element.find('.link-input-preview').html(Util.supplant(this.options.templates.preview, { link: link }));
+		this.preview.innerHTML = __.template.supplant(this.options.templates.preview, { link: link });
 
-		this.$element.find('input').val(JSON.stringify(link));
+		this.input.value = JSON.stringify(link);
 
-		this.$element.find('.link-input-preview').show();
-		this.$element.find('.link-input-add').hide();
+		__.dom.show(this.preview);
+		__.dom.hide(this.add);
 	}
 
 	removeLink() {
 		this.link = null;
 
-		this.$element.find('input').val('');
-		this.$element.find('.link-input-preview').html('');
+		this.input.value = '';
+		this.preview.innerHTML = '';
 
-		this.$element.find('.link-input-preview').hide();
-		this.$element.find('.link-input-add').show();
+		__.dom.hide(this.preview);
+		__.dom.show(this.add);
 	}
 
 	initValue() {
 		if (this.options.value) {
-			var link = typeof this.options.value === 'string' ? JSON.parse(this.options.value) : this.options.value;
+			var link = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
 			this.link = link;
 			this.addLink(link);
 		}
@@ -69,7 +74,7 @@ LinkInput.DEFAULTS = {
 				<div><strong>{{link.url}}</strong></div>
 				{{if (link.text != '')}}
 					<div><em>{{link.text}}</em></div>
-				{{/if}}
+				{{endif}}
 			</div>
 			<div class="link-input-options">
 				<a class="link-input-edit-link" href="javascript:void(0);">Edit</a>&nbsp;&nbsp;
