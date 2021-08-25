@@ -1,5 +1,6 @@
 import __ from '@foragefox/doubledash';
 import ColorPickerInput from './ColorPickerInput';
+import { createPopper } from '@popperjs/core';
 
 class BoxStyleInput {
 
@@ -60,7 +61,7 @@ class BoxStyleInput {
 
 		this.popperEl = __.dom.append(this.options.templates.popovers[type].trim(), this.element);
 
-		this.popper = new Popper(target, this.popperEl, { placement: this.options.placement });
+		this.popper = createPopper(target, this.popperEl, { placement: this.options.placement });
 	
 		if (this.data[this.currentProperty])
 			__.form.populateForm(__.dom.findOne('form', this.popperEl), this.data[this.currentProperty]);

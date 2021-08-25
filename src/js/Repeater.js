@@ -67,8 +67,7 @@ class Repeater {
 	removeItem(event) {
 		let removeButton = event.delegateTarget;
 		let item = __.dom.parents(removeButton, '.item');
-		
-		__.dom.remove(item);
+		__.dom.remove(item[0]);
 
 		this.options.onRemove(item);
 	}

@@ -56,7 +56,7 @@ class GalleryInput {
 	}
 
 	removeImage(event) {
-		let target = event.currentTarget;
+		let target = event.delegateTarget;
 
 		//remove thumb
 		let thumbnail = __.dom.closest(target, '.thumb');

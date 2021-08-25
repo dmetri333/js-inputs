@@ -1,4 +1,6 @@
 import __ from '@foragefox/doubledash';
+import { createPopper } from '@popperjs/core';
+
 
 class ColorPickerInput {
 
@@ -37,7 +39,7 @@ class ColorPickerInput {
 		this.paletteToggle = __.dom.findOne('.palette-toggle', this.element);
 		this.clear = __.dom.findOne('.clear-fields', this.element);
 
-		new Popper(this.input, this.popper, { placement: this.options.placement });
+		createPopper(this.input, this.popper, { placement: this.options.placement });
 
 		this.renderMiniPalette();
 	}
