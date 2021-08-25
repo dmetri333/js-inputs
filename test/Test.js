@@ -115,7 +115,7 @@ class Test {
 
 	linkOnOpen(linkInput) {
 		var linkPicker = new LinkPicker.LinkPicker({
-			selectCallback: function (link) {
+			onSelect: function (link) {
 				if (link.url)
 					linkInput.addLink(link);
 				else

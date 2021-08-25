@@ -65,7 +65,7 @@ class Repeater {
 	}
 
 	removeItem(event) {
-		let removeButton = event.currentTarget;
+		let removeButton = event.delegateTarget;
 		let item = __.dom.parents(removeButton, '.item');
 		
 		__.dom.remove(item);
@@ -104,7 +104,7 @@ Repeater.DEFAULTS = {
 				<button type="button" class="btn btn-sm btn-outline-secondary" data-repeater-add="">{{addLabel}}</button>	
 			</div>
 		`,
-		item: `<div class='item'>{{item}}<div/>`
+		item: `<div class='item'>{{& item}}<div/>`
 	}
 }
 
