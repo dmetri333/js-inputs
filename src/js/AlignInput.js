@@ -1,12 +1,12 @@
-import { extend, supplant } from '@foragefox/doubledash';
+import __ from '@foragefox/doubledash';
 
 class AlignInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = extend(true, AlignInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, AlignInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		this.element.innerHTML = supplant(this.options.templates.body, {
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
 			name: this.options.name,
 			value: this.options.value,
 			values: this.options.values

@@ -1,27 +1,27 @@
-import { extend, supplant, findOne, on, isString, hide, show } from '@foragefox/doubledash';
+import __ from '@foragefox/doubledash';
 
 class FileInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = extend(true, FileInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, FileInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		this.element.innerHTML = supplant(this.options.templates.body, {
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
 			name: this.options.name
 		});
 
-		this.input = findOne('input', this.element);
-		this.preview = findOne('.file-input-preview', this.element);
-		this.add = findOne('.file-input-add', this.element);
+		this.input = __.dom.findOne('input', this.element);
+		this.preview = __.dom.findOne('.file-input-preview', this.element);
+		this.add = __.dom.findOne('.file-input-add', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		on(this.element, 'click', '.file-input-add-btn', () => this.open());
-		on(this.element, 'click', '.file-input-edit-link', () => this.open());
-		on(this.element, 'click', '.file-input-remove-link', () => this.removeFile());
+		__.event.on(this.element, 'click', '.file-input-add-btn', () => this.open());
+		__.event.on(this.element, 'click', '.file-input-edit-link', () => this.open());
+		__.event.on(this.element, 'click', '.file-input-remove-link', () => this.removeFile());
 	}
 
 	open() {
@@ -35,11 +35,11 @@ class FileInput {
 			file.type = file.name.split('.').pop();
 		}
 
-		this.preview.innerHTML = supplant(this.options.templates.preview, { file: file });
+		this.preview.innerHTML = __.template.supplant(this.options.templates.preview, { file: file });
 		this.input.value = JSON.stringify(file);
 
-		show(this.preview);
-		hide(this.add);
+		__.dom.show(this.preview);
+		__.dom.hide(this.add);
 	}
 
 	removeFile() {
@@ -48,13 +48,13 @@ class FileInput {
 		this.input.value = '';
 		this.preview.innerHTML = '';
 
-		hide(this.preview);
-		show(this.add);
+		__.dom.hide(this.preview);
+		__.dom.show(this.add);
 	}
 
 	initValue() {
 		if (this.options.value) {
-			let file = isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
+			let file = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
 			this.file = file;
 			this.addFile(file);
 		}

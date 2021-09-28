@@ -1,27 +1,27 @@
-import { extend, supplant, findOne, isString, on, show, hide } from '@foragefox/doubledash';
+import __ from '@foragefox/doubledash';
 
 class LinkInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = extend(true, LinkInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = __.lang.extend(true, LinkInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		this.element.innerHTML = supplant(this.options.templates.body, {
+		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
 			name: this.options.name
 		});
 
-		this.input = findOne('input', this.element);
-		this.preview = findOne('.link-input-preview', this.element);
-		this.add = findOne('.link-input-add', this.element);
+		this.input = __.dom.findOne('input', this.element);
+		this.preview = __.dom.findOne('.link-input-preview', this.element);
+		this.add = __.dom.findOne('.link-input-add', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		on(this.element, 'click', '.link-input-add-btn', () => this.open());
-		on(this.element, 'click', '.link-input-edit-link', () => this.open());
-		on(this.element, 'click', '.link-input-remove-link', () => this.removeLink());
+		__.event.on(this.element, 'click', '.link-input-add-btn', () => this.open());
+		__.event.on(this.element, 'click', '.link-input-edit-link', () => this.open());
+		__.event.on(this.element, 'click', '.link-input-remove-link', () => this.removeLink());
 	}
 
 	open() {
@@ -31,12 +31,12 @@ class LinkInput {
 	addLink(link) {
 		this.link = link;
 
-		this.preview.innerHTML = supplant(this.options.templates.preview, { link: link });
+		this.preview.innerHTML = __.template.supplant(this.options.templates.preview, { link: link });
 
 		this.input.value = JSON.stringify(link);
 
-		show(this.preview);
-		hide(this.add);
+		__.dom.show(this.preview);
+		__.dom.hide(this.add);
 	}
 
 	removeLink() {
@@ -45,13 +45,13 @@ class LinkInput {
 		this.input.value = '';
 		this.preview.innerHTML = '';
 
-		hide(this.preview);
-		show(this.add);
+		__.dom.hide(this.preview);
+		__.dom.show(this.add);
 	}
 
 	initValue() {
 		if (this.options.value) {
-			var link = isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
+			var link = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
 			this.link = link;
 			this.addLink(link);
 		}

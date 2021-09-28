@@ -1,13 +1,13 @@
-import { extend, supplant, findOne } from '@foragefox/doubledash';
+import __ from '@foragefox/doubledash';
 
 class AngleInput {
 
     constructor(element, options) {
         this.element = element;
-        this.options = extend(true, AngleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+        this.options = __.lang.extend(true, AngleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
         this.body = document.body;
 
-        this.element.innerHTML = supplant(this.options.templates.body, {
+        this.element.innerHTML = __.template.supplant(this.options.templates.body, {
             name: this.options.name,
             value: this.options.value
 		});
@@ -15,9 +15,9 @@ class AngleInput {
         this.value = parseInt(this.options.value);
         this.dial = this.convertDialValue(this.value);
 
-        this.input = findOne('input', this.element);
-        this.circle = findOne('.angle-input-circle', this.element);
-        this.pivot = findOne('.angle-input-pivot', this.element);
+        this.input = __.dom.findOne('input', this.element);
+        this.circle = __.dom.findOne('.angle-input-circle', this.element);
+        this.pivot = __.dom.findOne('.angle-input-pivot', this.element);
 
         this.accessible(this.circle);
         this.setValue();
