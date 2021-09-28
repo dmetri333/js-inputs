@@ -1,4 +1,4 @@
-import { extend, supplant, findOne, on, trigger, append, contains, toggle, hide, show, offset, create, width, height } from '@foragefox/doubledash';
+import { extend, supplant, findOne, on, trigger, append, contains, hide, show, offset, create, width, height } from '@foragefox/doubledash';
 import { createPopper } from '@popperjs/core';
 
 
@@ -17,6 +17,7 @@ class ColorPickerInput {
 		append(this.options.templates.popover, this.element);
 
 		this.open = false;
+		this.paletteOpen = false;
 
 		this.renderPopover();
 		this.bindEvents();
@@ -76,8 +77,22 @@ class ColorPickerInput {
 	}
 
 	togglePalette() {
-		toggle(this.palette);
-		toggle(this.miniPalette);
+
+		if (this.paletteOpen) {
+			this.paletteOpen = false;
+			
+			hide(this.palette, 'block');
+			show(this.miniPalette, 'block');
+
+		} else {
+			this.paletteOpen = true;
+
+			show(this.palette, 'block');
+			hide(this.miniPalette, 'block');
+			
+			this.renderPalette();
+		}
+		
 	}
 
 	populateInputs(hex, rgb) {
@@ -131,11 +146,14 @@ class ColorPickerInput {
 
 	handlePaletteSelect(event) {
 		let paletteOffset = offset(this.palette);
+		console.log(paletteOffset);
+		console.log(event.pageY);
 		let x = event.pageX - paletteOffset.left;
 		let y = event.pageY - paletteOffset.top;
 
+		console.log(x + ":"+y);
 		let data = this.ctx.getImageData(x, y, 1, 1).data
-
+		console.log(data);
 		let hex = '#' + this.decToHex(data[0]) + this.decToHex(data[1]) + this.decToHex(data[2])
 		let rgb = this.hexToRgb(hex);
 

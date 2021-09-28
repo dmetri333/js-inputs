@@ -30,7 +30,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@foragefox/doubledash": "^1.2.0",
+    "@foragefox/doubledash": "^1.2.4",
     "@popperjs/core": "^2.9.3",
     "sortablejs": "^1.14.0"
   }

@@ -1,4 +1,4 @@
-import { extend, supplant, findOne } from '@foragefox/doubledash';
+import { extend, supplant, findOne, isNumber } from '@foragefox/doubledash';
 
 class AngleInput {
 
@@ -83,6 +83,8 @@ class AngleInput {
     }
 
     normalize(degree) {
+        degree = isNumber(degree) && !Number.isNaN(degree) ? degree : 0;
+
         var n = Math.max(this.options.min, Math.min(degree, this.options.max));
         var s = n - (n % this.options.step);
         var high = Math.ceil(n / this.options.step);
