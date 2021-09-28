@@ -1,27 +1,27 @@
-import __ from '@foragefox/doubledash';
+import { extend, supplant, findOne, isString, on, show, hide } from '@foragefox/doubledash';
 
 class ImageInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = __.lang.extend(true, ImageInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = extend(true, ImageInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
+		this.element.innerHTML = supplant(this.options.templates.body, {
 			name: this.options.name
 		});
 
-		this.input = __.dom.findOne('input', this.element);
-		this.preview = __.dom.findOne('.image-input-preview', this.element);
-		this.add = __.dom.findOne('.image-input-add', this.element);
+		this.input = findOne('input', this.element);
+		this.preview = findOne('.image-input-preview', this.element);
+		this.add = findOne('.image-input-add', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		__.event.on(this.element, 'click', '.image-input-add-btn', () => this.open());
-		__.event.on(this.element, 'click', '.image-input-edit-link', () => this.open());
-		__.event.on(this.element, 'click', '.image-input-remove-link', () => this.removeImage());
+		on(this.element, 'click', '.image-input-add-btn', () => this.open());
+		on(this.element, 'click', '.image-input-edit-link', () => this.open());
+		on(this.element, 'click', '.image-input-remove-link', () => this.removeImage());
 	}
 
 	open() {
@@ -31,11 +31,11 @@ class ImageInput {
 	addFile(file) {
 		this.file = file;
 
-		this.preview.innerHTML = __.template.supplant(this.options.templates.preview, { image: file });
+		this.preview.innerHTML = supplant(this.options.templates.preview, { image: file });
 		this.input.value = JSON.stringify(file);
 
-		__.dom.show(this.preview);
-		__.dom.hide(this.add);
+		show(this.preview);
+		hide(this.add);
 	}
 
 	removeImage() {
@@ -44,14 +44,14 @@ class ImageInput {
 		this.input.value = '';
 		this.preview.innerHTML = '';
 
-		__.dom.hide(this.preview);
-		__.dom.show(this.add);
+		hide(this.preview);
+		show(this.add);
 	}
 
 	initValue() {
 
 		if (this.options.value) {
-			var file = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
+			var file = isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
 			this.file = file;
 			this.addFile(file);
 		}

@@ -1,4 +1,4 @@
-import __ from '@foragefox/doubledash';
+import { extend, supplant, findOne, on, append, populateForm, parseForm } from '@foragefox/doubledash';
 import ColorPickerInput from './ColorPickerInput';
 import { createPopper } from '@popperjs/core';
 
@@ -6,13 +6,13 @@ class BoxStyleInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = __.lang.extend(true, BoxStyleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = extend(true, BoxStyleInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
        
-		__.dom.append(__.template.supplant(this.options.templates.input, {
+		append(supplant(this.options.templates.input, {
 			name: this.options.name
 		}), this.element);
 
-		this.input = __.dom.findOne('input', this.element);
+		this.input = findOne('input', this.element);
 
 		this.colorPicker;
 		this.currentProperty = '';
@@ -29,9 +29,9 @@ class BoxStyleInput {
 	}
 
 	bindEvents() {
-		__.event.on(this.element, 'click', '.close', () => this.close());
-		__.event.on(this.element, 'click', '[data-prop]', (event) => this.show(event));
-		__.event.on(this.element, 'click', '.save', () => this.save());
+		on(this.element, 'click', '.close', () => this.close());
+		on(this.element, 'click', '[data-prop]', (event) => this.show(event));
+		on(this.element, 'click', '.save', () => this.save());
 	}
 
 	close() {
@@ -59,22 +59,22 @@ class BoxStyleInput {
 		this.currentProperty = target.dataset.prop;
 		let type = target.dataset.type;
 
-		this.popperEl = __.dom.append(this.options.templates.popovers[type].trim(), this.element);
+		this.popperEl = append(this.options.templates.popovers[type].trim(), this.element);
 
 		this.popper = createPopper(target, this.popperEl, { placement: this.options.placement });
 	
 		if (this.data[this.currentProperty])
-			__.form.populateForm(__.dom.findOne('form', this.popperEl), this.data[this.currentProperty]);
+			populateForm(findOne('form', this.popperEl), this.data[this.currentProperty]);
 
 		if (type == 'border') {
-			this.colorPicker = new ColorPickerInput(__.dom.findOne('[data-input]', this.popperEl));
+			this.colorPicker = new ColorPickerInput(findOne('[data-input]', this.popperEl));
 		}
 
 	}
 
 	save() {
-		let label = __.dom.findOne('[data-prop=' + this.currentProperty + ']', this.element);
-		let meta = __.form.parseForm(__.dom.findOne('form', this.popperEl));
+		let label = findOne('[data-prop=' + this.currentProperty + ']', this.element);
+		let meta = parseForm(findOne('form', this.popperEl));
 
 		if (meta.size == '') {
 			delete this.data[this.currentProperty];
@@ -89,7 +89,7 @@ class BoxStyleInput {
 
 	setLabels() {
 		for (const property in this.data) {
-			let label = __.dom.findOne('[data-prop=' + property + ']', this.element);
+			let label = findOne('[data-prop=' + property + ']', this.element);
 			if (label && this.data[property].size != '') {
 				label.innerText = this.data[property].size;
 			}
