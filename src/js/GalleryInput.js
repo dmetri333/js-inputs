@@ -1,37 +1,37 @@
-import __ from '@foragefox/doubledash';
+import { extend, supplant, findOne, find, isString, on, append, closest, remove } from '@foragefox/doubledash';
 import Sortable from 'sortablejs';
 
 class GalleryInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = __.lang.extend(true, GalleryInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = extend(true, GalleryInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
 		this.files = [];
 
-		this.element.innerHTML = __.template.supplant(this.options.templates.body, {
+		this.element.innerHTML = supplant(this.options.templates.body, {
 			name: this.options.name
 		});
 
-		this.input = __.dom.findOne('input', this.element);
-		this.thumbs = __.dom.findOne('.gallery-input-thumbs', this.element);
+		this.input = findOne('input', this.element);
+		this.thumbs = findOne('.gallery-input-thumbs', this.element);
 
 		this.initValue();
 		this.initEvents();
 	}
 
 	initEvents() {
-		__.event.on(this.element, 'click', '.gallery-input-add-btn', () => this.open());
-		__.event.on(this.element, 'click', '.gallery-input-remove-link', (event) => this.removeImage(event));
+		on(this.element, 'click', '.gallery-input-add-btn', () => this.open());
+		on(this.element, 'click', '.gallery-input-remove-link', (event) => this.removeImage(event));
 		
 		Sortable.create(this.thumbs, {
 			animation: 150,
 			onUpdate: (event) => {
 				let files = [];
 
-				let thumbs = __.dom.find('.thumb', this.thumbs);
+				let thumbs = find('.thumb', this.thumbs);
 				for (let i = 0; i < thumbs.length; i++) {
-					files.push({ id: thumbs[i].dataset.id, path: __.dom.findOne('img', thumbs[i]).getAttribute('src') });
+					files.push({ id: thumbs[i].dataset.id, path: findOne('img', thumbs[i]).getAttribute('src') });
 				};
 				
 				this.files = files;
@@ -48,7 +48,7 @@ class GalleryInput {
 		let fileIds = this.files.map(function (item) { return item.id; });
 
 		if (!fileIds.includes(file.id)) {
-			__.dom.append(__.template.supplant(this.options.templates.thumb, { image: file }), this.thumbs);
+			append(supplant(this.options.templates.thumb, { image: file }), this.thumbs);
 			this.files.push(file);
 		}
 
@@ -59,10 +59,10 @@ class GalleryInput {
 		let target = event.delegateTarget;
 
 		//remove thumb
-		let thumbnail = __.dom.closest(target, '.thumb');
+		let thumbnail = closest(target, '.thumb');
 		let id = thumbnail.dataset.id;
 
-		__.dom.remove(thumbnail);
+		remove(thumbnail);
 
 		// remove from files array
 		for (let i = 0; i < this.files.length; i++) {
@@ -77,7 +77,7 @@ class GalleryInput {
 
 	initValue() {
 		if (this.options.value) {
-			let files = __.lang.isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
+			let files = isString(this.options.value) ? JSON.parse(this.options.value) : this.options.value;
 			for (let i = 0; i < files.length; i++) {
 				this.addFile(files[i]);
 			}

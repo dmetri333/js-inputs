@@ -1,18 +1,18 @@
-import __ from '@foragefox/doubledash';
+import { extend, supplant, findOne, find, append, populateForm, on, parents, remove } from '@foragefox/doubledash';
 import Sortable from 'sortablejs';
 
 class Repeater {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = __.lang.extend(true, Repeater.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = extend(true, Repeater.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
 
-		__.dom.append(__.template.supplant(this.options.templates.body, {
+		append(supplant(this.options.templates.body, {
 			addLabel: this.options.addLabel 
 		}), this.element);
 
 		this.template = this.buildTemplate();
-		this.items = __.dom.findOne('.items', this.element);
+		this.items = findOne('.items', this.element);
 		this.itemCount = 0;
 
 		this.populate();
@@ -20,8 +20,8 @@ class Repeater {
 	}
 
 	bindEvents() {
-		__.event.on(this.element, 'click', '[data-repeater-remove]', (event) => this.removeItem(event));
-		__.event.on(this.element, 'click', '[data-repeater-add]', () => this.addItem());
+		on(this.element, 'click', '[data-repeater-remove]', (event) => this.removeItem(event));
+		on(this.element, 'click', '[data-repeater-add]', () => this.addItem());
 
 		return Sortable.create(this.items, {
 			handle: '[data-repeater-move]',
@@ -49,14 +49,14 @@ class Repeater {
 	}
 
 	addItem(data) {
-		let html = __.template.supplant(this.options.templates.item, { 
-			item: __.template.supplant(this.template, { index: this.itemCount })
+		let html = supplant(this.options.templates.item, { 
+			item: supplant(this.template, { index: this.itemCount })
 		});
 
-		let item = __.dom.append(html, this.items);
+		let item = append(html, this.items);
 
 		if (data) {
-			__.form.populateForm(item, data);
+			populateForm(item, data);
 		}
 		
 		this.options.onAdd(item);
@@ -66,16 +66,16 @@ class Repeater {
 
 	removeItem(event) {
 		let removeButton = event.delegateTarget;
-		let item = __.dom.parents(removeButton, '.item');
-		__.dom.remove(item[0]);
+		let item = parents(removeButton, '.item');
+		remove(item[0]);
 
 		this.options.onRemove(item);
 	}
 
 	buildTemplate() {
-		let template = __.dom.findOne('[data-repeater-template]', this.element);
+		let template = findOne('[data-repeater-template]', this.element);
 		
-		let fields = __.dom.find('input, select, textarea, [data-name]', template);
+		let fields = find('input, select, textarea, [data-name]', template);
 		for (let i = 0; i < fields.length; i++) {
 			if (fields[i].hasAttribute('name')) {
 				fields[i].setAttribute('name', this.options.name + '-' + fields[i].getAttribute('name'));
@@ -86,7 +86,7 @@ class Repeater {
 
 		let html = template.innerHTML;
 
-		__.dom.remove(template);
+		remove(template);
 		return html;
 	}
 

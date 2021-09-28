@@ -1,4 +1,4 @@
-import __ from '@foragefox/doubledash';
+import { extend, supplant, findOne, on, trigger, append, contains, toggle, hide, show, offset, create, width, height } from '@foragefox/doubledash';
 import { createPopper } from '@popperjs/core';
 
 
@@ -6,15 +6,15 @@ class ColorPickerInput {
 
 	constructor(element, options) {
 		this.element = element;
-		this.options = __.lang.extend(true, ColorPickerInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
+		this.options = extend(true, ColorPickerInput.DEFAULTS, this.element.dataset, typeof options == 'object' && options);
        
-		__.dom.append(__.template.supplant(this.options.templates.input, {
+		append(supplant(this.options.templates.input, {
 			name: this.options.name,
 			size: this.options.fieldsize,
 			placeholder: this.options.placeholder 
 		}), this.element);
 
-		__.dom.append(this.options.templates.popover, this.element);
+		append(this.options.templates.popover, this.element);
 
 		this.open = false;
 
@@ -23,21 +23,21 @@ class ColorPickerInput {
 
 		if (this.options.value) {
 			this.input.value = this.options.value;
-			__.event.trigger(this.input, 'change');
+			trigger(this.input, 'change');
 		}
 	}
 
 	renderPopover() {
-		this.input = __.dom.findOne('.color-input', this.element);
-		this.popper = __.dom.findOne('.palette-popover', this.element);
-		this.miniPalette = __.dom.findOne('.mini-palette', this.element);
-		this.palette = __.dom.findOne('.palette', this.element);
+		this.input = findOne('.color-input', this.element);
+		this.popper = findOne('.palette-popover', this.element);
+		this.miniPalette = findOne('.mini-palette', this.element);
+		this.palette = findOne('.palette', this.element);
 		this.ctx = this.palette.getContext('2d');
-		this.hexInput = __.dom.findOne('.hex', this.element);
-		this.rgbInput = __.dom.findOne('.rgb', this.element);
-		this.preview = __.dom.findOne('.color-preview', this.element);
-		this.paletteToggle = __.dom.findOne('.palette-toggle', this.element);
-		this.clear = __.dom.findOne('.clear-fields', this.element);
+		this.hexInput = findOne('.hex', this.element);
+		this.rgbInput = findOne('.rgb', this.element);
+		this.preview = findOne('.color-preview', this.element);
+		this.paletteToggle = findOne('.palette-toggle', this.element);
+		this.clear = findOne('.clear-fields', this.element);
 
 		createPopper(this.input, this.popper, { placement: this.options.placement });
 
@@ -45,29 +45,29 @@ class ColorPickerInput {
 	}
 
 	bindEvents() {
-		__.event.on(document, 'click', (event) => this.close(event));
-		__.event.on(this.input, 'focus', () => this.show());
-		__.event.on(this.paletteToggle, 'click', () => this.togglePalette());
-		__.event.on(this.clear, 'click', () => this.clearFields());
-		__.event.on(this.miniPalette, 'click', '.palette-item', (event) => this.handleMiniPaletteSelect(event));
-		__.event.on(this.palette, 'click', (event) => this.handlePaletteSelect(event));
-		__.event.on(this.hexInput, 'change', (event) => this.handleManualHexInput(event));
-		__.event.on(this.rgbInput, 'change', (event) => this.handleManualRgbInput(event));
-		__.event.on(this.input, 'change', (event) => this.handleManualInput(event));
+		on(document, 'click', (event) => this.close(event));
+		on(this.input, 'focus', () => this.show());
+		on(this.paletteToggle, 'click', () => this.togglePalette());
+		on(this.clear, 'click', () => this.clearFields());
+		on(this.miniPalette, 'click', '.palette-item', (event) => this.handleMiniPaletteSelect(event));
+		on(this.palette, 'click', (event) => this.handlePaletteSelect(event));
+		on(this.hexInput, 'change', (event) => this.handleManualHexInput(event));
+		on(this.rgbInput, 'change', (event) => this.handleManualRgbInput(event));
+		on(this.input, 'change', (event) => this.handleManualInput(event));
 	}
 
 	close(event) {
 		let target = event.target;
 
-		if (target != this.element && !__.dom.contains(this.element, target)) {
+		if (target != this.element && !contains(this.element, target)) {
 			this.open = false;
-			__.dom.hide(this.popper);
+			hide(this.popper);
 		}
 	}
 
 	show() {
 		this.open = true;
-		__.dom.show(this.popper, 'block');
+		show(this.popper, 'block');
 		this.renderPalette();
 	}
 
@@ -76,8 +76,8 @@ class ColorPickerInput {
 	}
 
 	togglePalette() {
-		__.dom.toggle(this.palette);
-		__.dom.toggle(this.miniPalette);
+		toggle(this.palette);
+		toggle(this.miniPalette);
 	}
 
 	populateInputs(hex, rgb) {
@@ -130,7 +130,7 @@ class ColorPickerInput {
 	}
 
 	handlePaletteSelect(event) {
-		let paletteOffset = __.position.offset(this.palette);
+		let paletteOffset = offset(this.palette);
 		let x = event.pageX - paletteOffset.left;
 		let y = event.pageY - paletteOffset.top;
 
@@ -146,17 +146,17 @@ class ColorPickerInput {
 		for (let hex of this.options.palette) {
 			let rgb = this.hexToRgb(hex);
 
-			let paletteItem = __.dom.create('div', { 'class': 'palette-item' });
+			let paletteItem = create('div', { 'class': 'palette-item' });
 			paletteItem.style.backgroundColor = hex;
 			paletteItem.dataset.hex = hex;
 			paletteItem.dataset.rgb = rgb;
 
-			__.dom.append(paletteItem, this.miniPalette);
+			append(paletteItem, this.miniPalette);
 		}
 	}
 
 	renderPalette() {
-		let gradient = this.ctx.createLinearGradient(0, 0, __.size.width(this.palette), 0);
+		let gradient = this.ctx.createLinearGradient(0, 0, width(this.palette), 0);
 
 		gradient.addColorStop(0,    "rgb(255,   0,   0)");
 		gradient.addColorStop(0.15, "rgb(255,   0, 255)");
@@ -169,7 +169,7 @@ class ColorPickerInput {
 		this.ctx.fillStyle = gradient
 		this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-		gradient = this.ctx.createLinearGradient(0, 0, 0, __.size.height(this.palette));
+		gradient = this.ctx.createLinearGradient(0, 0, 0, height(this.palette));
 		gradient.addColorStop(0,   "rgba(255, 255, 255, 1)");
 		gradient.addColorStop(0.5, "rgba(255, 255, 255, 0)");
 		gradient.addColorStop(0.5, "rgba(0,     0,   0, 0)");
@@ -293,8 +293,5 @@ ColorPickerInput.DEFAULTS = {
 		`
 	}
 }
-
-
-
 
 export default ColorPickerInput;
