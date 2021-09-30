@@ -74,7 +74,7 @@ class BoxStyleInput {
 
 	save() {
 		let label = findOne('[data-prop=' + this.currentProperty + ']', this.element);
-		let meta = parseForm(findOne('form', this.popperEl));
+		let meta = parseForm(this.popperEl);
 
 		if (meta.size == '') {
 			delete this.data[this.currentProperty];
@@ -139,14 +139,14 @@ BoxStyleInput.DEFAULTS = {
 						<h6>Margin</h6>
 						<a class="close"></a>
 					</div>
-					<form>
+					<div>
 						<div class="input-group input-group-sm">
 							<input type="text" class="form-control" name="size" value="" placeholder="##px" />
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary save" type="button">Set</button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			`,
 			border: `
@@ -155,7 +155,7 @@ BoxStyleInput.DEFAULTS = {
 						<h6>Border</h6>
 						<a class="close"></a>
 					</div>	
-					<form>
+					<div>
 						<div class="form-group">
 							<input type="text" class="form-control form-control-sm" name="size" placeholder="##px" />
 						</div>
@@ -177,7 +177,7 @@ BoxStyleInput.DEFAULTS = {
 						<div>
 							<button class="btn btn-outline-secondary btn-sm save" type="button">Set</button>
 						</div>
-					</form>	
+					</div>	
 				</div>
 			`,
 			padding: `
@@ -186,14 +186,14 @@ BoxStyleInput.DEFAULTS = {
 						<h6>Padding</h6>
 						<a class="close"></a>
 					</div>
-					<form>
+					<div>
 						<div class="input-group input-group-sm">
 							<input type="text" class="form-control" name="size" placeholder="##px" />
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary save" type="button">Set</button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			`,
 		}
