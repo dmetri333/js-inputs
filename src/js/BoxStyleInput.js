@@ -64,7 +64,7 @@ class BoxStyleInput {
 		this.popper = createPopper(target, this.popperEl, { placement: this.options.placement });
 	
 		if (this.data[this.currentProperty])
-			populateForm(findOne('form', this.popperEl), this.data[this.currentProperty]);
+			populateForm(this.popperEl, this.data[this.currentProperty]);
 
 		if (type == 'border') {
 			this.colorPicker = new ColorPickerInput(findOne('[data-input]', this.popperEl));
