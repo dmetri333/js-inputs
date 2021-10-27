@@ -1,5 +1,4 @@
 import { extend, supplant, findOne, find, isString, on, append, closest, remove } from '@foragefox/doubledash';
-import Sortable from 'sortablejs';
 
 class GalleryInput {
 

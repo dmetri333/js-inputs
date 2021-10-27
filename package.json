@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@foragefox/doubledash": "^1.2.4",
-    "@popperjs/core": "^2.9.3",
-    "sortablejs": "^1.14.0"
+    "@popperjs/core": "^2.9.3"
   }
 }

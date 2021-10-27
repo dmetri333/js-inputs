@@ -1,5 +1,4 @@
 import { extend, supplant, findOne, find, append, populateForm, on, parents, remove } from '@foragefox/doubledash';
-import Sortable from 'sortablejs';
 
 class Repeater {
 
