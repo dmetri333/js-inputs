@@ -29,7 +29,7 @@ class Repeater {
 	}
 
 	populate() {
-		let data = this.element.dataset.value;
+		let data = this.parseValue(this.element.dataset.value);
 		
 		if (data && data.constructor === Object && Object.entries(data).length !== 0) {
 			let count = Object.values(data)[0].length;
@@ -87,6 +87,14 @@ class Repeater {
 
 		remove(template);
 		return html;
+	}
+
+	parseValue(value) {
+		try {
+			return JSON.parse(value);
+		} catch (e) {
+			return false;
+		}
 	}
 
 }
