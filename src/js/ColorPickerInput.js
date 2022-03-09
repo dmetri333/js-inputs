@@ -1,4 +1,4 @@
-import { extend, supplant, findOne, on, trigger, append, contains, hide, show, offset, create, width, height } from '@foragefox/doubledash';
+import { extend, supplant, find, findOne, on, trigger, append, contains, hide, show, offset, create, width, height } from '@foragefox/doubledash';
 import { createPopper } from '@popperjs/core';
 
 
@@ -36,7 +36,7 @@ class ColorPickerInput {
 		this.ctx = this.palette.getContext('2d');
 		this.hexInput = findOne('.hex', this.element);
 		this.rgbInput = findOne('.rgb', this.element);
-		this.preview = findOne('.color-preview', this.element);
+		this.previews = find('.color-preview', this.element);
 		this.paletteToggle = findOne('.palette-toggle', this.element);
 		this.clear = findOne('.clear-fields', this.element);
 
@@ -81,14 +81,14 @@ class ColorPickerInput {
 		if (this.paletteOpen) {
 			this.paletteOpen = false;
 			
-			hide(this.palette, 'block');
-			show(this.miniPalette, 'block');
+			hide(this.palette);
+			show(this.miniPalette, 'inline-block');
 
 		} else {
 			this.paletteOpen = true;
 
 			show(this.palette, 'block');
-			hide(this.miniPalette, 'block');
+			hide(this.miniPalette);
 			
 			this.renderPalette();
 		}
@@ -100,7 +100,10 @@ class ColorPickerInput {
 		this.hexInput.value = hex;
 		this.rgbInput.value = rgb;
 
-		this.preview.style.backgroundColor = (rgb ? rgb : '');
+		for (let i = 0; i < this.previews.length; i++) {
+			this.previews[i].style.backgroundColor = (rgb ? rgb : '');
+		}
+
 	}
 
 
@@ -146,14 +149,14 @@ class ColorPickerInput {
 
 	handlePaletteSelect(event) {
 		let paletteOffset = offset(this.palette);
-		console.log(paletteOffset);
-		console.log(event.pageY);
+		//console.log(paletteOffset);
+		//console.log(event.pageY);
 		let x = event.pageX - paletteOffset.left;
 		let y = event.pageY - paletteOffset.top;
 
-		console.log(x + ":"+y);
+		//console.log(x + ":"+y);
 		let data = this.ctx.getImageData(x, y, 1, 1).data
-		console.log(data);
+		//console.log(data);
 		let hex = '#' + this.decToHex(data[0]) + this.decToHex(data[1]) + this.decToHex(data[2])
 		let rgb = this.hexToRgb(hex);
 
