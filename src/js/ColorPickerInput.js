@@ -165,7 +165,14 @@ class ColorPickerInput {
 
 	renderMiniPalette() {
 		for (let hex of this.options.palette) {
-			let rgb = this.hexToRgb(hex);
+			let rgb;
+
+			if (this.isHexColor(hex)) {
+				rgb = this.hexToRgb(hex);
+			} else {
+				rgb = hex;
+				hex = this.rgbToHex(rgb);
+			}
 
 			let paletteItem = create('div', { 'class': 'palette-item' });
 			paletteItem.style.backgroundColor = hex;
